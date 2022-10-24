@@ -155,23 +155,11 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			_tokenQueue.push(_token1);
 			_currNumber = "";
 		}
-		if (*it == '_') {
+		if (*it == '_' || *it == '+') {
 			_token1._symbol = *it;
 			OperationLowest(_token1);
 		}
-		else if (*it == '+') {
-			_token1._symbol = *it;
-			OperationLowest(_token1);
-		}
-		else if (*it == '*') {
-			_token1._symbol = *it;
-			OperationHighest(_token1);
-		}
-		else if (*it == '/') {
-			_token1._symbol = *it;
-			OperationHighest(_token1);
-		}
-		else if (*it == '%') {
+		else if (*it == '*' || *it == '/' || *it == '%') {
 			_token1._symbol = *it;
 			OperationHighest(_token1);
 		}
