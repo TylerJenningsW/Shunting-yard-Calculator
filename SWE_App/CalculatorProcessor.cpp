@@ -92,55 +92,45 @@ std::string CalculatorProcessor::Calculate() {
 		}
 		else if (_token1._type == Token::NUMBER) {
 			_tokenStack.push(_token1);
+			continue;
 		}
 		else if (_token1._symbol == '+') {
 			BinaryFunction();
 			_results._value = Add(_token3._value, _token2._value);
-			_tokenStack.push(_results);
 		}
 		else if (_token1._symbol == '_') {
 			BinaryFunction();
 			_results._value = Subtract(_token3._value, _token2._value);
-			_tokenStack.push(_results);
 		}
 		else if (_token1._symbol == '/') {
 			BinaryFunction();
 			_results._value = Divide(_token3._value, _token2._value);
-			_tokenStack.push(_results);
 		}
 		else if (_token1._symbol == '*') {
 			BinaryFunction();
 			_results._value = Multiply(_token3._value, _token2._value);
-			_tokenStack.push(_results);
 		}
 		else if (_token1._symbol == '%') {
 			BinaryFunction();
 			_results._value = MOD(_token3._value, _token2._value);
-			_tokenStack.push(_results);
 		}
-		else if (_token1._symbol == "SIN") {
+		else if (_token1._symbol == "S") {
 			UnaryFunction();
 			_results._value = SIN(_token2._value);
-			_tokenStack.push(_results);
 		}
-		else if (_token1._symbol == "COS") {
+		else if (_token1._symbol == "C") {
 			UnaryFunction();
 			_results._value = COS(_token2._value);
-			_tokenStack.push(_results);
 		}
-		else if (_token1._symbol == "TAN") {
+		else if (_token1._symbol == "T") {
 			UnaryFunction();
 			_results._value = TAN(_token2._value);
-			_tokenStack.push(_results);
 		}
+		_tokenStack.push(_results);
 	}
 	std::string str = std::to_string(_tokenStack.top()._value);
 	_tokenStack.pop();
 	return str;
-}
-
-std::string CalculatorProcessor::GetCurrNumber(){ 
-	return _currNumber;
 }
 
 bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {	
@@ -226,12 +216,6 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 		_tokenQueue.push(token);
 	}
 	return _error;
-}
-
-
-void CalculatorProcessor::SetCurrNumber(std::string str)
-{
-	_currNumber = str;
 }
 
 double CalculatorProcessor::Add(double x, double y) {
