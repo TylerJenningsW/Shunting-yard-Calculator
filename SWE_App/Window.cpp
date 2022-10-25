@@ -4,7 +4,7 @@
 #include "CalculatorProcessor.h"
 
 
-Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosition, wxDefaultSize) {
+Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosition, wxSize(320, 340)) {
 	// top sizer -> grid sizer
 	Factory::CreateSizers(this);
 	// include specific symbols and numbers
@@ -19,7 +19,7 @@ Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosi
 	// add buttons to grid
 	Factory::CreateButtons(_gridSizer, this);
 	// minimum window size & open in center of screen
-	SetMinSize(wxSize(400, 600));
+	SetMinSize(wxSize(320, 340));
 	Centre();
 }
 Window::~Window() {

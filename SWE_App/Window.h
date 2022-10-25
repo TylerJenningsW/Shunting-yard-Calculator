@@ -5,11 +5,6 @@
 // GUI
 enum ids;
 class Window : public wxFrame {
-    //double _currNumber = NULL;
-    //double _otherNumber = NULL;
-    //double _result = NULL;
-    //bool operating = false;
-    //int _currOp = NULL;
 public:
 	Window();
     ~Window();

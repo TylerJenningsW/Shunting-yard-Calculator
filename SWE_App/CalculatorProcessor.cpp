@@ -76,6 +76,9 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		txt->Clear();
 		pressed = str;
 	}
+	else if (id == ids::BACK) {
+		pressed = "";
+	}
 	txt->AppendText(pressed);
 }
 
