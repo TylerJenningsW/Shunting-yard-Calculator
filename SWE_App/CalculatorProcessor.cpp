@@ -38,7 +38,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		bool changed = false;
 		for (unsigned int i = (str.length()-1); i > 0; i--)	{
 			char t = str[i];
-			if ((std::isdigit(str[i]) || str[i] == ')') && i != 0) {				
+			if ((std::isdigit(str[i]) || str[i] == ')' || str[i] == '.') && i != 0) {
 				continue;
 			}
 			else if (str[i] == '-') {
