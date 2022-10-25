@@ -26,8 +26,6 @@ bool App::OnInit() {
 	_CrtDumpMemoryLeaks();
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF
 		| _CRTDBG_LEAK_CHECK_DF);
-	HANDLE hLogFile = CreateFile(L"MemoryLeaks.txt", GENERIC_WRITE, FILE_SHARE_WRITE,
-		NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	window = new Window();
 	window->Show();
 	return true;

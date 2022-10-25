@@ -31,6 +31,10 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		return;
 	}
 	if (id == ids::NEGATIVE) {
+		if (str == "")
+		{
+			return;
+		}
 		bool changed = false;
 		for (unsigned int i = (str.length()-1); i > 0; i--)	{
 			char t = str[i];
@@ -172,20 +176,8 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			_token1._symbol = *it;
 			RightParenthesis(_token1);
 		}
-		else if (*it == 'S') {
-			_token1._symbol = "SIN";
-			Function(_token1);
-			_tokenStack.push(_token1);
-			it += 2;
-		}
-		else if (*it == 'C') {
-			_token1._symbol = "COS";
-			Function(_token1);
-			_tokenStack.push(_token1);
-			it += 2;
-		}
-		else if (*it == 'T') {
-			_token1._symbol = "TAN";
+		else if (*it == 'S' || *it == 'C' || *it == 'T') {
+			_token1._symbol = *it;
 			Function(_token1);
 			_tokenStack.push(_token1);
 			it += 2;
