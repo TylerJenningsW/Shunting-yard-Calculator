@@ -19,7 +19,7 @@ Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosi
 	// add buttons to grid
 	Factory::CreateButtons(_gridSizer, this);
 	// minimum window size & open in center of screen
-	SetMinSize(wxSize(400, 600));
+	SetMinSize(wxSize(320, 540));
 	Centre();
 }
 Window::~Window() {
