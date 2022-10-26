@@ -3,7 +3,8 @@
 #include <stack>
 #include <queue>
 #include "Token.h"
-#include "idList.h"
+enum ids;
+class Token;
 class Window;
 class CalculatorProcessor
 {

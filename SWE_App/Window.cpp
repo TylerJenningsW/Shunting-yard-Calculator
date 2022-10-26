@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Factory.h"
 #include "CalculatorProcessor.h"
-
+#include "idlist.h"
 
 Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosition, wxSize(340, 540)) {
 	// top sizer -> grid sizer

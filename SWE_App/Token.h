@@ -5,7 +5,7 @@ class Token
 private:
 
 public:
-	static enum TokenType : int {
+	enum TokenType : int {
 		NUMBER = 11000,
 		OPERATION,
 		LPEN,

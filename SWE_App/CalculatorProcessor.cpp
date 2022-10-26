@@ -31,27 +31,25 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		txt->AppendText(_result);
 		return;
 	}
-	else if (id == ids::EQUALS)
-	{
+	else if (id == ids::EQUALS)	{
 		return;
 	}
 	if (id == ids::NEGATIVE) {
-		if (str == "")
-		{
+		if (str == "") {
 			return;
 		}
 		bool changed = false;
 		for (unsigned int i = (str.length()-1); i > 0; i--)	{
-			char t = str[i];
-			if ((std::isdigit(str[i]) || str[i] == ')' || str[i] == '.') && i != 0) {
+			char c = str[i];
+			if ((std::isdigit(c) || c == ')' || c == '.') && i != 0) {
 				continue;
 			}
-			else if (str[i] == '-') {
+			else if (c == '-') {
 				str.erase(i, i-1);
 				changed = true;
 				break;
 			}
-			else if (str[i] == str[0]) {
+			else if (c == str[0]) {
 				str.insert(i+1, "-");
 				changed = true;
 				break;
@@ -304,8 +302,7 @@ void CalculatorProcessor::Function(Token& token) {
 	token._type = Token::FUNCTION;
 	token._precedence = 4;
 }
-void CalculatorProcessor::BinaryFunction()
-{
+void CalculatorProcessor::BinaryFunction() {
 	_token2 = _tokenStack.top();
 	_tokenStack.pop();
 	_token3 = _tokenStack.top();
@@ -315,16 +312,14 @@ void CalculatorProcessor::UnaryFunction() {
 	_token2 = _tokenStack.top();
 	_tokenStack.pop();
 }
-CalculatorProcessor* CalculatorProcessor::GetInstance()
-{
+CalculatorProcessor* CalculatorProcessor::GetInstance() {
 	if (_processor == nullptr) {
 		_processor = new CalculatorProcessor();
 	}
 	return _processor;
 }
 
-void CalculatorProcessor::DestroyInstance()
-{
+void CalculatorProcessor::DestroyInstance() {
 	if (_processor != nullptr)
 	{
 		delete _processor;
