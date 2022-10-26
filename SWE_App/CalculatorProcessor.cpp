@@ -135,45 +135,45 @@ std::string CalculatorProcessor::Calculate() {
 
 bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {	
 	// grab expression
-	auto it = strToEval.begin();
-	for (it; it != strToEval.end(); ++it)	{
-		if ((std::isdigit(*it) || *it == '.' || *it == '-') && *it != strToEval.back()) {
-			_currNumber += *it;
+	unsigned int i = 0;
+	for (i; i < strToEval.length(); ++i) {
+		if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-') && strToEval[i] != strToEval.back()) {
+			_currNumber += strToEval[i];
 			continue;
 		}
-		else if ((std::isdigit(*it) || *it == '.' || *it == '-')) {
-			_currNumber += *it;
+		else if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-')) {
+			_currNumber += strToEval[i];
 			Number(_token1,_currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
 		}
-		else if((_currNumber != "" && !(std::isdigit(*it) || *it == '.')) || *it == strToEval.back()) {
+		else if((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) || strToEval[i] == strToEval.back()) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
 		}
-		if (*it == '_' || *it == '+') {
-			_token1._symbol = *it;
+		if (strToEval[i] == '_' || strToEval[i] == '+') {
+			_token1._symbol = strToEval[i];
 			OperationLowest(_token1);
 		}
-		else if (*it == '*' || *it == '/' || *it == '%') {
-			_token1._symbol = *it;
+		else if (strToEval[i] == '*' || strToEval[i] == '/' || strToEval[i] == '%') {
+			_token1._symbol = strToEval[i];
 			OperationHighest(_token1);
 		}
-		else if (*it == '(') {
-			_token1._symbol = *it;
+		else if (strToEval[i] == '(') {
+			_token1._symbol = strToEval[i];
 			LeftParenthesis(_token1);
 			_tokenStack.push(_token1);
 		}
-		else if (*it == ')') {
-			_token1._symbol = *it;
+		else if (strToEval[i] == ')') {
+			_token1._symbol = strToEval[i];
 			RightParenthesis(_token1);
 		}
-		else if (*it == 'S' || *it == 'C' || *it == 'T') {
-			_token1._symbol = *it;
+		else if (strToEval[i] == 'S' || strToEval[i] == 'C' || strToEval[i] == 'T') {
+			_token1._symbol = strToEval[i];
 			Function(_token1);
 			_tokenStack.push(_token1);
-			it += 2;
+			i += 2;
 		}
 		if (_tokenStack.empty() && _token1._type == Token::RPEN) {
 			_error = true;

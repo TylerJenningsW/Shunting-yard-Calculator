@@ -1,7 +1,9 @@
+#include "wx/wx.h"
 #include "Factory.h"
 #include "Window.h"
 #include "idList.h"
 #include "Token.h"
+
 
 std::unordered_map<ids, std::string> Factory::FillPairs(std::string idStrings[], Window* parent)
 {

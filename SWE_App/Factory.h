@@ -1,7 +1,7 @@
 #pragma once
-#include "wx/wx.h"
 #include <unordered_map>
 enum ids;
+class wxGridSizer;
 class Window;
 static class Factory {
 public:
