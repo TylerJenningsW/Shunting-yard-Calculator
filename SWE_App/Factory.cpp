@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "idList.h"
 #include "Token.h"
+#include <sstream>
 
 
 std::unordered_map<ids, std::string> Factory::FillPairs(std::string idStrings[], Window* parent)
@@ -19,7 +20,12 @@ std::unordered_map<ids, std::string> Factory::FillPairs(std::string idStrings[],
 void Factory::CreateButtons(wxGridSizer* grid, Window* parent)
 {
 	int j = (ids::COS - ids::MAINWINDOW) - 2;
+	int x = 0;
 	for (int i = (ids::COS); i >= ids::EQUALS; --i) {
+		std::istringstream is(_idStrings[j]);
+
+		// use is like an input stream
+		is >> x;
 		wxButton* btn = new wxButton(parent, (ids)i, _idStrings[j], wxDefaultPosition, wxSize(wxDefaultSize), wxBORDER_NONE);
 		btn->SetFont(wxFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_SEMIBOLD, false));
 		// Set button background color based on text
@@ -29,8 +35,14 @@ void Factory::CreateButtons(wxGridSizer* grid, Window* parent)
 		else if (i == (ids::CLEAR)) {
 			btn->SetOwnBackgroundColour(wxColour(255, 70, 0));
 		}
-		else {
+		else if (x || _idStrings[j] == '0' || _idStrings[j] == "+/-" || _idStrings[j] == "MOD")
+		{
 			btn->SetOwnBackgroundColour(wxColour(18, 18, 19));
+		}
+		else {
+			
+			btn->SetOwnBackgroundColour(wxColour(36, 36, 36));
+
 		}
 		// Set text color
 		btn->SetOwnForegroundColour(wxColour(255, 255, 255));
