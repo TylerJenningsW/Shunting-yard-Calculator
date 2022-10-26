@@ -29,11 +29,6 @@ Window::~Window() {
 	_validator = nullptr;
 }
 
-Window* Window::GetWindow()
-{
-	return this;
-}
-
 wxTextCtrl* Window::GetOutput() {
 	return _output;
 }
