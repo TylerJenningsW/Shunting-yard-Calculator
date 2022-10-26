@@ -30,6 +30,10 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		txt->AppendText(_result);
 		return;
 	}
+	else if (id == ids::EQUALS)
+	{
+		return;
+	}
 	if (id == ids::NEGATIVE) {
 		if (str == "")
 		{
