@@ -30,6 +30,7 @@ static enum ids : int {
 	COS
 };
 static std::string _idStrings[]{
+		" ",
 		"=",
 		"MOD",
 		"0",

@@ -8,9 +8,9 @@
 
 std::unordered_map<ids, std::string> Factory::FillPairs(std::string idStrings[], Window* parent)
 {
-	int count = (ids::COS - ids::MAINWINDOW) - 2;
+	int count = (ids::COS - ids::MAINWINDOW) - 1;
 	std::unordered_map<ids, std::string> btns = parent->GetPairs();
-	for (int i = (ids::COS); i >= ids::EQUALS; --i) {
+	for (int i = (ids::COS); i >= ids::OUTPUT; --i) {
 		btns.insert(std::make_pair((ids)i, idStrings[count]));
 		--count;
 	}
@@ -19,7 +19,7 @@ std::unordered_map<ids, std::string> Factory::FillPairs(std::string idStrings[],
 
 void Factory::CreateButtons(wxGridSizer* grid, Window* parent)
 {
-	int j = (ids::COS - ids::MAINWINDOW) - 2;
+	int j = (ids::COS - ids::MAINWINDOW) - 1;
 	int x = 0;
 	for (int i = (ids::COS); i >= ids::EQUALS; --i) {
 		std::istringstream is(_idStrings[j]);
@@ -65,10 +65,9 @@ void Factory::CreateTextCtrl(Window* parent, wxTextValidator* validator)
 {
 	wxTextCtrl* _output = new wxTextCtrl(parent, ids::OUTPUT, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_RIGHT, *validator);
 	_output->SetFont(wxFont(24, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false));
-
 	// Set textbox background and text color
+	_output->Bind(wxEVT_CHAR, wxCharEventHandler(Window::OnChar), parent);
 	_output->SetBackgroundColour(wxColour(6, 11, 11));
 	_output->SetForegroundColour(wxColour(255, 255, 255));
-
 	parent->SetTextControl(_output);
 }

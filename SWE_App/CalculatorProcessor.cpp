@@ -11,7 +11,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 	wxTextCtrl* txt = parent->GetOutput();
 	std::string str = (std::string)txt->GetValue();
 	std::string pressed = btnPairs.at((ids)id);
-	if (id == ids::EQUALS && str != "") {
+	if ((id == ids::EQUALS || id == ids::OUTPUT) && str != "") {
 		_error = EvaluateExpression(str);
 		_result = Calculate();
 		// clean up structures
@@ -31,7 +31,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		txt->AppendText(_result);
 		return;
 	}
-	else if (id == ids::EQUALS)	{
+	else if (id == ids::EQUALS || id == ids::OUTPUT) {
 		return;
 	}
 	if (id == ids::NEGATIVE) {

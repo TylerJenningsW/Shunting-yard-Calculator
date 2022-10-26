@@ -57,11 +57,24 @@ void Window::OnButtonClick(wxCommandEvent& evt) {
 	evt.Skip();
 }
 
+void Window::OnChar(wxKeyEvent& evt) {
+	// Evaluate expression if enter key is pressed
+	if (evt.GetKeyCode() == WXK_RETURN)	{
+		CalculatorProcessor* _processor = CalculatorProcessor::GetInstance();
+		_processor->ParseId(this, (ids)evt.GetId());
+		return;
+	}
+
+	// Process all other keys as usual
+	evt.Skip();
+}
+
 void Window::AddToSizer() {
 	_sizer->Add(_output, 1, wxEXPAND | wxTOP | wxBOTTOM | wxLEFT | wxRIGHT);
 	_sizer->Add(_gridSizer, 10, wxEXPAND);
 }
 void Window::AddToIncludes() {
+	_includeList.Add("\n");
 	_includeList.Add("_");
 	_includeList.Add("+");
 	_includeList.Add("-");
@@ -74,5 +87,6 @@ void Window::AddToIncludes() {
 	_includeList.Add("COS");
 	_includeList.Add("TAN");
 	_validator = new wxTextValidator(wxFILTER_NUMERIC | wxFILTER_INCLUDE_CHAR_LIST);
+	_validator->SuppressBellOnError(true);
 	_validator->SetIncludes(_includeList);
 }

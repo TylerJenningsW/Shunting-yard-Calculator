@@ -15,6 +15,7 @@ public:
     void SetWindowGridSizer(wxGridSizer* gridSizer);
     void SetTextControl(wxTextCtrl* textCtrl);
     void OnButtonClick(wxCommandEvent& evt);
+    void OnChar(wxKeyEvent& evt);
 private:
     wxBoxSizer* _sizer = nullptr;
     wxGridSizer* _gridSizer = nullptr;
