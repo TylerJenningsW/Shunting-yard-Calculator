@@ -101,36 +101,39 @@ std::string CalculatorProcessor::Calculate() {
 			continue;
 		}
 		else if (_token1._symbol == '+') {
-			BinaryFunction();
+			_error = BinaryFunction();
 			_results._value = Add(_token3._value, _token2._value);
 		}
 		else if (_token1._symbol == '_') {
-			BinaryFunction();
+			_error = BinaryFunction();
 			_results._value = Subtract(_token3._value, _token2._value);
 		}
 		else if (_token1._symbol == '/') {
-			BinaryFunction();
+			_error = BinaryFunction();
 			_results._value = Divide(_token3._value, _token2._value);
 		}
 		else if (_token1._symbol == '*') {
-			BinaryFunction();
+			_error = BinaryFunction();
 			_results._value = Multiply(_token3._value, _token2._value);
 		}
 		else if (_token1._symbol == '%') {
-			BinaryFunction();
+			_error = BinaryFunction();
 			_results._value = MOD(_token3._value, _token2._value);
 		}
 		else if (_token1._symbol == "S") {
-			UnaryFunction();
+			_error = UnaryFunction();
 			_results._value = SIN(_token2._value);
 		}
 		else if (_token1._symbol == "C") {
-			UnaryFunction();
+			_error = UnaryFunction();
 			_results._value = COS(_token2._value);
 		}
 		else if (_token1._symbol == "T") {
-			UnaryFunction();
+			_error = UnaryFunction();
 			_results._value = TAN(_token2._value);
+		}
+		if (_error == true) {
+			return "";
 		}
 		_tokenStack.push(_results);
 	}
@@ -228,10 +231,15 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			}
 		}
 	}
-	for (size_t i = 0; i <= _tokenStack.size(); ++i) {
-		Token token = _tokenStack.top();
-		_tokenStack.pop();
-		_tokenQueue.push(token);
+	if (_tokenStack.size() == 0)	{
+		_error = true;
+	}
+	else {
+		for (size_t i = 0; i <= _tokenStack.size(); ++i) {
+			Token token = _tokenStack.top();
+			_tokenStack.pop();
+			_tokenQueue.push(token);
+		}
 	}
 	return _error;
 }
@@ -302,15 +310,23 @@ void CalculatorProcessor::Function(Token& token) {
 	token._type = Token::FUNCTION;
 	token._precedence = 4;
 }
-void CalculatorProcessor::BinaryFunction() {
-	_token2 = _tokenStack.top();
-	_tokenStack.pop();
-	_token3 = _tokenStack.top();
-	_tokenStack.pop();
+bool CalculatorProcessor::BinaryFunction() {
+	if (_tokenStack.size() >= 2) {
+		_token2 = _tokenStack.top();
+		_tokenStack.pop();
+		_token3 = _tokenStack.top();
+		_tokenStack.pop();
+		return false;
+	}
+	return true;
 }
-void CalculatorProcessor::UnaryFunction() {
-	_token2 = _tokenStack.top();
-	_tokenStack.pop();
+bool CalculatorProcessor::UnaryFunction() {
+	if (_tokenStack.size() >= 1) {
+		_token2 = _tokenStack.top();
+		_tokenStack.pop();
+		return false;
+	}
+	return true;
 }
 CalculatorProcessor* CalculatorProcessor::GetInstance() {
 	if (_processor == nullptr) {

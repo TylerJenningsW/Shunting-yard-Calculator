@@ -40,8 +40,8 @@ public:
 	void LeftParenthesis(Token& token);
 	void RightParenthesis(Token& token);
 	void Function(Token& token);
-	void BinaryFunction();
-	void UnaryFunction();
+	bool BinaryFunction();
+	bool UnaryFunction();
 	static CalculatorProcessor* GetInstance();
 	static void DestroyInstance();
 };
