@@ -22,7 +22,7 @@ namespace SWEAppTests
 			id = grid->GetItem(index)->GetWindow()->GetId();
 		}
 		TEST_METHOD(ButtonTestTan) {
-			DoButtonCreation(0.0);			
+			DoButtonCreation(4);
 			bool valid = false;
 			if (str == "TAN" && id == ids::TAN)
 			{
@@ -31,7 +31,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestCos) {
-			DoButtonCreation(1);
+			DoButtonCreation(0.0);
 			bool valid = false;
 			if (str == "COS" && id == ids::COS)
 			{
@@ -40,7 +40,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestSin) {
-			DoButtonCreation(2);
+			DoButtonCreation(1);
 			bool valid = false;
 			if (str == "SIN" && id == ids::SIN)
 			{
@@ -49,7 +49,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestMod) {
-			DoButtonCreation(3);
+			DoButtonCreation(22);
 			bool valid = false;
 			if (str == "MOD" && id == ids::MOD)
 			{
@@ -58,7 +58,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestNegative) {
-			DoButtonCreation(4);
+			DoButtonCreation(20);
 			bool valid = false;
 			if (str == "+/-" && id == ids::NEGATIVE)
 			{
@@ -67,7 +67,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestClear) {
-			DoButtonCreation(5);
+			DoButtonCreation(3);
 			bool valid = false;
 			if (str == "C" && id == ids::CLEAR)
 			{
@@ -76,7 +76,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestEqual) {
-			DoButtonCreation(6);
+			DoButtonCreation(23);
 			bool valid = false;
 			if (str == "=" && id == ids::EQUALS)
 			{
@@ -85,7 +85,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestRightP) {
-			DoButtonCreation(7);
+			DoButtonCreation(6);
 			bool valid = false;
 			if (str == ")" && id == ids::RIGHTP)
 			{
@@ -94,7 +94,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestLeftP) {
-			DoButtonCreation(8);
+			DoButtonCreation(5);
 			bool valid = false;
 			if (str == "(" && id == ids::LEFTP)
 			{
@@ -103,7 +103,7 @@ namespace SWEAppTests
 			Assert::IsTrue(valid);
 		}
 		TEST_METHOD(ButtonTestMultiply) {
-			DoButtonCreation(9);
+			DoButtonCreation(11);
 			bool valid = false;
 			if (str == "*" && id == ids::MULTIPLY)
 			{
