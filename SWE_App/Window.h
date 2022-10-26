@@ -4,10 +4,12 @@
 #include <unordered_map>
 // GUI
 enum ids;
+class Factory;
 class Window : public wxFrame {
 public:
 	Window();
     ~Window();
+    Window* GetWindow();
     wxTextCtrl* GetOutput();
     std::unordered_map<ids, std::string> GetPairs();
     void SetWindowSizer(wxBoxSizer* sizer);
