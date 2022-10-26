@@ -23,7 +23,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		}
 		if (_error == true) {
 			txt->Clear();
-			txt->AppendText("ERROR!");
+			txt->AppendText("0");
 			_error = false;
 			return;
 		}
