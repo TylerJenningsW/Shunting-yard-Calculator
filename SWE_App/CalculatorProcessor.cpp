@@ -24,6 +24,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		if (_error == true) {
 			txt->Clear();
 			txt->AppendText("ERROR!");
+			_error = false;
 			return;
 		}
 		txt->Clear();
@@ -87,6 +88,9 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 }
 
 std::string CalculatorProcessor::Calculate() {
+	if (_error == true)	{
+		return "";
+	}
 	while (!_tokenQueue.empty()) {
 		_token1 = _tokenQueue.front();
 		_tokenQueue.pop();
@@ -140,9 +144,15 @@ std::string CalculatorProcessor::Calculate() {
 bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {	
 	// grab expression
 	unsigned int i = 0;
+	unsigned int opCount = 0;
 	for (i; i < strToEval.length(); ++i) {
+		if (opCount > 1) {
+			_error = true;
+			break;
+		}
 		if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-') && strToEval[i] != strToEval.back()) {
 			_currNumber += strToEval[i];
+			opCount = 0;
 			continue;
 		}
 		else if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-')) {
@@ -150,11 +160,14 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			Number(_token1,_currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
+			opCount = 0;
+
 		}
 		else if((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) || strToEval[i] == strToEval.back()) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
+
 		}
 		if (strToEval[i] == '_' || strToEval[i] == '+') {
 			_token1._symbol = strToEval[i];
@@ -183,13 +196,15 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			_error = true;
 			break;
 		}
-		else if (_tokenStack.empty()) {
+		else if (_tokenStack.empty() && _token1._type != Token::NUMBER) {
 			_tokenStack.push(_token1);
+			++opCount;
 			continue;
 		}
 		if (_token1._type == Token::OPERATION
 			&& _token1._precedence >= _tokenStack.top()._precedence) {
 			_tokenStack.push(_token1);
+			++opCount;
 		}
 		else if (_token1._type == Token::OPERATION && 
 			_token1._precedence < _tokenStack.top()._precedence) {
@@ -197,6 +212,7 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			_tokenStack.pop();
 			_tokenStack.push(_token1);
 			_tokenQueue.push(token);
+			++opCount;
 		}
 		else if (_token1._type == Token::RPEN) {
 			while (_tokenStack.top()._type != Token::LPEN || _tokenStack.empty()) {
