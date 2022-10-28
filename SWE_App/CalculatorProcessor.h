@@ -25,7 +25,7 @@ public:
 	CalculatorProcessor& operator=(CalculatorProcessor& other) = delete;
 	void ParseId(Window* parent, ids id);
 	std::string Calculate();
-	bool EvaluateExpression(std::string strToEval);
+	bool EvaluateExpression(std::string& strToEval);
 	double Add(double x, double y);
 	double Subtract(double x, double y);
 	double Divide(double x, double y);

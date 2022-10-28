@@ -140,10 +140,22 @@ std::string CalculatorProcessor::Calculate() {
 	return str;
 }
 
-bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {	
+bool CalculatorProcessor::EvaluateExpression(std::string& strToEval) {	
 	// grab expression
 	unsigned int i = 0;
 	unsigned int opCount = 0;
+	for (i; i < strToEval.length(); ++i) {
+		if (strToEval[i] != '(' && strToEval[i] != ')') {
+			continue;
+		}
+		else if (strToEval[i] == '(' && i != 0 && std::isdigit(strToEval[i - 1])) {
+			strToEval.insert(i, 1, '*');
+		}
+		else if (strToEval[i] == ')' && i < (strToEval.length()-1) && std::isdigit(strToEval[i+1])) {
+			strToEval.insert(i+1, 1, '*');
+		}
+	}
+	i = 0;
 	for (i; i < strToEval.length(); ++i) {
 		if (opCount > 1) {
 			_error = true;
