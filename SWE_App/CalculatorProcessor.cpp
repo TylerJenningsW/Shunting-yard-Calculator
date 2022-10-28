@@ -17,12 +17,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		_error = EvaluateExpression();// rpn
 		_result = Calculate();// shunting
 		// clean up structures
-		while (!_tokenStack.empty()) {
-			_tokenStack.pop();
-		}
-		while (!_tokenQueue.empty()) {
-			_tokenQueue.pop();
-		}
+		CleanUp();
 		if (_error == true) {
 			txt->Clear();
 			txt->AppendText("0");
@@ -140,29 +135,43 @@ std::string CalculatorProcessor::Calculate() {
 	return str;
 }
 
-bool CalculatorProcessor::EvaluateExpression() {	
+void CalculatorProcessor::CleanUp() {
+	while (!_tokenStack.empty()) {
+		_tokenStack.pop();
+	}
+	while (!_tokenQueue.empty()) {
+		_tokenQueue.pop();
+	}
+}
+
+bool CalculatorProcessor::EvaluateExpression() {
+	// check if multiplication is implied by parentheses
 	strToEval = MultiplyParentheses();
 	// grab expression
 	unsigned int i = 0;
 	unsigned int opCount = 0;
 	for (i; i < strToEval.length(); ++i) {
+		// if user were to spam symbols that couldn't be calculated
 		if (opCount > 1) {
 			_error = true;
 			break;
 		}
+		// track the number string to be tokenized
 		if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-') && strToEval[i] != strToEval.back()) {
 			_currNumber += strToEval[i];
 			opCount = 0;
 			continue;
 		}
+		// tokenize number if at the end of the equation
 		else if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-')) {
 			_currNumber += strToEval[i];
 			Number(_token1,_currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
 			opCount = 0;
-
 		}
+		// tokenize number if at the end of the number
+		// i.e not a digit, or expression is over
 		else if(((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) || strToEval[i] == strToEval.back()) && opCount < 1) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
@@ -172,6 +181,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_error = true;
 			break;
 		}
+		// tokenize operators
 		if (strToEval[i] == '_' || strToEval[i] == '+') {
 			_token1._symbol = strToEval[i];
 			OperationLowest(_token1);
@@ -180,6 +190,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_token1._symbol = strToEval[i];
 			OperationHighest(_token1);
 		}
+		// tokenize parentheses
 		else if (strToEval[i] == '(') {
 			_token1._symbol = strToEval[i];
 			LeftParenthesis(_token1);
@@ -189,16 +200,19 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_token1._symbol = strToEval[i];
 			RightParenthesis(_token1);
 		}
+		// tokenize functions
 		else if (strToEval[i] == 'S' || strToEval[i] == 'C' || strToEval[i] == 'T') {
 			_token1._symbol = strToEval[i];
 			Function(_token1);
 			_tokenStack.push(_token1);
 			i += 2;
 		}
+		// parenthesis mismatch case
 		if (_tokenStack.empty() && _token1._type == Token::RPEN) {
 			_error = true;
 			break;
 		}
+		// no need for comparison if the stack is empty
 		else if (_tokenStack.empty() && _token1._type != Token::NUMBER) {
 			_tokenStack.push(_token1);
 			++opCount;
@@ -209,6 +223,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_tokenStack.push(_token1);
 			++opCount;
 		}
+		// swap high precedence operator onto the queue
 		else if (_token1._type == Token::OPERATION && 
 			_token1._precedence < _tokenStack.top()._precedence
 			&& _tokenStack.top()._type == Token::OPERATION) {
@@ -218,12 +233,14 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_tokenQueue.push(token);
 			++opCount;
 		}
+		// pop everything within the parentheses into the queue
 		else if (_token1._type == Token::RPEN) {
 			while (_tokenStack.top()._type != Token::LPEN && !_tokenStack.empty()) {
 				Token token = _tokenStack.top();
 				_tokenStack.pop();
 				_tokenQueue.push(token);
 			}
+			// missing leftP case
 			if (_tokenStack.empty()) {
 				_error = true;
 				break;
@@ -233,9 +250,11 @@ bool CalculatorProcessor::EvaluateExpression() {
 			}
 		}
 	}
+	// no operators case
 	if (_tokenStack.size() == 0)	{
 		_error = true;
 	}
+	// push everything into the final reverse polish notation queue
 	else {
 		for (size_t i = 0; i <= _tokenStack.size(); ++i) {
 			Token token = _tokenStack.top();
@@ -243,6 +262,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_tokenQueue.push(token);
 		}
 	}
+	// return whether or not there was an error found
 	return _error;
 }
 
