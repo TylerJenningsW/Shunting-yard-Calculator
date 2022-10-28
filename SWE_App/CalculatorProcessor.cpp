@@ -45,7 +45,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 				continue;
 			}
 			else if (c == '-') {
-				str.erase(i, i-1);
+				str.erase(i, 1);
 				changed = true;
 				break;
 			}
