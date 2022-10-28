@@ -38,34 +38,29 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		if (str == "") {
 			return;
 		}
-		bool changed = false;
-		for (unsigned int i = (str.length()-1); i > 0; i--)	{
+		for (unsigned int i = (str.length()-1); i >= 0; i--)	{
 			char c = str[i];
 			if ((std::isdigit(c) || c == ')' || c == '.') && i != 0) {
 				continue;
 			}
 			else if (c == '-') {
 				str.erase(i, 1);
-				changed = true;
 				break;
 			}
+			else if (c == str[0] && c == '-') {
+				str.erase(0, 1);
+				break;
+
+			}
 			else if (c == str[0]) {
-				str.insert(i+1, "-");
-				changed = true;
+				str.insert(i, "-");
 				break;
 
 			}
 			else if (std::isdigit(str[i-1])) {
 				str.insert(i+1, "-");
-				changed = true;
 				break;
 			}
-		}
-		if (changed == false && str != "" && str[0] == '-') {
-			str.erase(0, 1);
-		}
-		else if (changed == false && str != "") {
-			str.insert(0, "-");
 		}
 		txt->Clear();
 		pressed = str;
