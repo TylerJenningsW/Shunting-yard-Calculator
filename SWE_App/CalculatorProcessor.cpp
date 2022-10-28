@@ -209,7 +209,8 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			++opCount;
 		}
 		else if (_token1._type == Token::OPERATION && 
-			_token1._precedence < _tokenStack.top()._precedence) {
+			_token1._precedence < _tokenStack.top()._precedence
+			&& _tokenStack.top()._type == Token::OPERATION) {
 			Token token = _tokenStack.top();
 			_tokenStack.pop();
 			_tokenStack.push(_token1);
@@ -299,12 +300,12 @@ void CalculatorProcessor::OperationHighest(Token& token) {
 void CalculatorProcessor::LeftParenthesis(Token& token) {
 	token._value = 0;
 	token._type = Token::LPEN;
-	token._precedence = 4;
+	token._precedence = -1;
 }
 void CalculatorProcessor::RightParenthesis(Token& token) {
 	token._value = 0;
 	token._type = Token::RPEN;
-	token._precedence = 4;
+	token._precedence = -1;
 }
 void CalculatorProcessor::Function(Token& token) {
 	token._value = 0;
