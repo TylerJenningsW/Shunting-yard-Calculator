@@ -11,10 +11,10 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 	std::unordered_map<ids, std::string> btnPairs = parent->GetPairs();
 	// read the current output to evaluate
 	wxTextCtrl* txt = parent->GetOutput();
-	std::string str = (std::string)txt->GetValue();
+	strToEval = (std::string)txt->GetValue();
 	std::string pressed = btnPairs.at((ids)id);
-	if ((id == ids::EQUALS || id == ids::OUTPUT) && str != "") {
-		_error = EvaluateExpression(str);// rpn
+	if ((id == ids::EQUALS || id == ids::OUTPUT) && strToEval != "") {
+		_error = EvaluateExpression();// rpn
 		_result = Calculate();// shunting
 		// clean up structures
 		while (!_tokenStack.empty()) {
@@ -38,47 +38,47 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		return;
 	}
 	if (id == ids::NEGATIVE) {
-		if (str == "") {
+		if (strToEval == "") {
 			return;
 		}
-		for (unsigned int i = (str.length()-1); i >= 0; i--)	{
-			char c = str[i];
+		for (unsigned int i = (strToEval.length()-1); i >= 0; --i)	{
+			char c = strToEval[i];
 			if ((std::isdigit(c) || c == ')' || c == '.') && i != 0) {
 				continue;
 			}
 			else if (c == '-') {
-				str.erase(i, 1);
+				strToEval.erase(i, 1);
 				break;
 			}
-			else if (c == str[0] && c == '-') {
-				str.erase(0, 1);
-				break;
-
-			}
-			else if (c == str[0]) {
-				str.insert(i, "-");
+			else if (c == strToEval[0] && c == '-') {
+				strToEval.erase(0, 1);
 				break;
 
 			}
-			else if (std::isdigit(str[i-1])) {
-				str.insert(i+1, "-");
+			else if (c == strToEval[0]) {
+				strToEval.insert(i, "-");
+				break;
+
+			}
+			else if (std::isdigit(strToEval[i-1])) {
+				strToEval.insert(i+1, "-");
 				break;
 			}
 		}
 		txt->Clear();
-		pressed = str;
+		pressed = strToEval;
 	}
 	if (id == ids::CLEAR) {
 		txt->Clear();
 		return;
 	}
-	if (id == ids::BACK && str != "") {
-		str.erase(str.length() - 1,1);
+	if (id == ids::BACK && strToEval != "") {
+		strToEval.erase(strToEval.length() - 1,1);
 		txt->Clear();
-		pressed = str;
+		pressed = strToEval;
 	}
 	else if (id == ids::BACK) {
-		pressed = "";
+		return;
 	}
 	txt->AppendText(pressed);
 }
@@ -140,22 +140,11 @@ std::string CalculatorProcessor::Calculate() {
 	return str;
 }
 
-bool CalculatorProcessor::EvaluateExpression(std::string& strToEval) {	
+bool CalculatorProcessor::EvaluateExpression() {	
+	strToEval = MultiplyParentheses();
 	// grab expression
 	unsigned int i = 0;
 	unsigned int opCount = 0;
-	for (i; i < strToEval.length(); ++i) {
-		if (strToEval[i] != '(' && strToEval[i] != ')') {
-			continue;
-		}
-		else if (strToEval[i] == '(' && i != 0 && std::isdigit(strToEval[i - 1])) {
-			strToEval.insert(i, 1, '*');
-		}
-		else if (strToEval[i] == ')' && i < (strToEval.length()-1) && std::isdigit(strToEval[i+1])) {
-			strToEval.insert(i+1, 1, '*');
-		}
-	}
-	i = 0;
 	for (i; i < strToEval.length(); ++i) {
 		if (opCount > 1) {
 			_error = true;
@@ -272,6 +261,21 @@ double CalculatorProcessor::Divide(double x, double y) {
 double CalculatorProcessor::Multiply(double x, double y) {
 	Number(_results, std::to_string(x * y));
 	return x * y;
+}
+std::string CalculatorProcessor::MultiplyParentheses() {
+
+	for (int i = 0; i < strToEval.length(); ++i) {
+		if (strToEval[i] != '(' && strToEval[i] != ')') {
+			continue;
+		}
+		else if (strToEval[i] == '(' && i != 0 && std::isdigit(strToEval[i - 1])) {
+			strToEval.insert(i, 1, '*');
+		}
+		else if (strToEval[i] == ')' && i < (strToEval.length() - 1) && (std::isdigit(strToEval[i + 1]) || strToEval[i + 1] == '(')) {
+			strToEval.insert(i + 1, 1, '*');
+		}
+	}
+	return strToEval;
 }
 double CalculatorProcessor::MOD(double x, double y) {
 	Number(_results, std::to_string(std::fmod(x,y)));

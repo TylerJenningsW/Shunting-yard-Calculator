@@ -11,6 +11,7 @@ class CalculatorProcessor
 private:
 	static CalculatorProcessor* _processor;
 	CalculatorProcessor() {}
+	std::string strToEval = "";
 	std::string _currNumber = "";
 	std::string _result = "";
 	bool _error = false;
@@ -25,11 +26,12 @@ public:
 	CalculatorProcessor& operator=(CalculatorProcessor& other) = delete;
 	void ParseId(Window* parent, ids id);
 	std::string Calculate();
-	bool EvaluateExpression(std::string& strToEval);
+	bool EvaluateExpression();
 	double Add(double x, double y);
 	double Subtract(double x, double y);
 	double Divide(double x, double y);
 	double Multiply(double x, double y);
+	std::string MultiplyParentheses();
 	double MOD(double x, double y);
 	double SIN(double x);
 	double COS(double x);
