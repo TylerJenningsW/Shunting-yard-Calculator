@@ -42,6 +42,7 @@ public:
 	void Function(Token& token);
 	bool BinaryFunction();
 	bool UnaryFunction();
+	void Truncate();
 	static CalculatorProcessor* GetInstance();
 	static void DestroyInstance();
 };

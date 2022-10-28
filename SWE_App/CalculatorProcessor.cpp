@@ -29,6 +29,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 			_error = false;
 			return;
 		}
+		Truncate();
 		txt->Clear();
 		txt->AppendText(_result);
 		return;
@@ -327,6 +328,19 @@ bool CalculatorProcessor::UnaryFunction() {
 		return false;
 	}
 	return true;
+}
+void CalculatorProcessor::Truncate() {
+	if (_error == true)	{
+		return;
+	}
+	int count = 0;
+	for (unsigned int i = _result.length() - 1; i > 0; --i)	{
+		if (_result[i] != '.') {
+			++count;
+			continue;
+		}
+		_result.erase(i+1, count-2);
+	}
 }
 CalculatorProcessor* CalculatorProcessor::GetInstance() {
 	if (_processor == nullptr) {
