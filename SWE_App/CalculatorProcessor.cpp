@@ -12,8 +12,8 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 	std::string str = (std::string)txt->GetValue();
 	std::string pressed = btnPairs.at((ids)id);
 	if ((id == ids::EQUALS || id == ids::OUTPUT) && str != "") {
-		_error = EvaluateExpression(str);
-		_result = Calculate();
+		_error = EvaluateExpression(str);// rpn
+		_result = Calculate();// shunting
 		// clean up structures
 		while (!_tokenStack.empty()) {
 			_tokenStack.pop();
@@ -164,11 +164,14 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			opCount = 0;
 
 		}
-		else if((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) || strToEval[i] == strToEval.back()) {
+		else if(((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) || strToEval[i] == strToEval.back()) && opCount < 1) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
-
+		}
+		else if (!(std::isdigit(strToEval[i]))) {
+			_error = true;
+			break;
 		}
 		if (strToEval[i] == '_' || strToEval[i] == '+') {
 			_token1._symbol = strToEval[i];
