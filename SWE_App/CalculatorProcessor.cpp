@@ -218,18 +218,17 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			++opCount;
 		}
 		else if (_token1._type == Token::RPEN) {
-			while (_tokenStack.top()._type != Token::LPEN || _tokenStack.empty()) {
+			while (_tokenStack.top()._type != Token::LPEN && !_tokenStack.empty()) {
 				Token token = _tokenStack.top();
 				_tokenStack.pop();
 				_tokenQueue.push(token);
 			}
-			if (_tokenStack.top()._type == Token::LPEN)	{
-				_token1 = _tokenStack.top();
-				_tokenStack.pop();
-			}
-			else {
+			if (_tokenStack.empty()) {
 				_error = true;
 				break;
+			}
+			else if (_tokenStack.top()._type == Token::LPEN)	{
+				_tokenStack.pop();
 			}
 		}
 	}
