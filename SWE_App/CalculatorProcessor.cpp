@@ -1,6 +1,8 @@
 #include "CalculatorProcessor.h"
 #include "Window.h"
 #include "idList.h"
+#define PI 3.14159265
+
 CalculatorProcessor* CalculatorProcessor::_processor = nullptr;
 
 
@@ -164,7 +166,7 @@ bool CalculatorProcessor::EvaluateExpression(std::string strToEval) {
 			_tokenQueue.push(_token1);
 			_currNumber = "";
 		}
-		else if (!(std::isdigit(strToEval[i]))) {
+		else if (!(std::isdigit(strToEval[i])) && opCount > 1) {
 			_error = true;
 			break;
 		}
@@ -264,15 +266,15 @@ double CalculatorProcessor::MOD(double x, double y) {
 }
 double CalculatorProcessor::SIN(double x) {
 	Number(_results, std::to_string(std::sin(x)));
-	return std::sin(x);
+	return std::sin(x * PI / 180.0);
 }
 double CalculatorProcessor::COS(double x) {
 	Number(_results, std::to_string(std::cos(x)));
-	return std::cos(x);
+	return std::cos(x * PI / 180.0);
 }
 double CalculatorProcessor::TAN(double x) {
 	Number(_results, std::to_string(std::tan(x)));
-	return std::tan(x);
+	return std::tan(x * PI / 180.0);
 }
 void CalculatorProcessor::Number(Token& token, std::string str) {
 	token._symbol = str;
