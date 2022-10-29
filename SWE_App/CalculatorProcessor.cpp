@@ -126,10 +126,16 @@ std::string CalculatorProcessor::Calculate() {
 			_error = UnaryFunction();
 			_results._value = TAN(_token2._value);
 		}
-		if (_error == true) {
+		if (_error == true && _tokenStack.size() == 1) {
+			_error = false;
+			break;
+		}
+		else if (_error == false) {
+			_tokenStack.push(_results);
+		}
+		else if (_error == true) {
 			return "";
 		}
-		_tokenStack.push(_results);
 	}
 	std::string str = std::to_string(_tokenStack.top()._value);
 	_tokenStack.pop();
