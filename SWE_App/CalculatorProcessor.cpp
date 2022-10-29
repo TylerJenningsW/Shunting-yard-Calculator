@@ -167,7 +167,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			break;
 		}
 		// determine if char is op or negative
-		if (strToEval[i] == '-' && i != 0 && strToEval[i-1] != '-') {
+		if (strToEval[i] == '-' && i != 0 && strToEval[i - 1] != '-' && strToEval[i - 1] != '(') {
 			isOperator = true;
 		}
 		// track the number string to be tokenized
@@ -180,8 +180,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			continue;
 		}
 		// tokenize number if at the end of the equation
-		else if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-') 
-			&& isOperator == false) {
+		else if (std::isdigit(strToEval[i]) && i == (strToEval.length() - 1)) {
 			_currNumber += strToEval[i];
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
@@ -190,7 +189,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 		}
 		// tokenize number if at the end of the number
 		// i.e not a digit, or expression is over
-		else if(((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) && i != (strToEval.length() - 1)
+		else if (((_currNumber != "" && !(std::isdigit(strToEval[i]) )) || i == (strToEval.length()-1)
 			&& opCount < 1)) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
