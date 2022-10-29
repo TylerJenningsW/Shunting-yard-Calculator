@@ -153,6 +153,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="CalculatorProcessor.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="idList.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Window.h" />

@@ -3,6 +3,7 @@
 #include "Factory.h"
 #include "CalculatorProcessor.h"
 #include "idlist.h"
+#include "Helper.h"
 
 Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosition, wxSize(340, 540)) {
 	// top sizer -> grid sizer
@@ -21,7 +22,7 @@ Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosi
 	// minimum window size & open in center of screen
 	SetMinSize(wxSize(340, 540));
 	SetBackgroundColour(wxColour(0, 0, 0));
-
+	
 	Centre();
 }
 Window::~Window() {
@@ -66,6 +67,39 @@ void Window::OnChar(wxKeyEvent& evt) {
 	}
 
 	// Process all other keys as usual
+	evt.Skip();
+}
+
+void Window::OnButtonHover(wxMouseEvent& evt) {
+	wxEventType type = evt.GetEventType();
+	wxButton* btn = (wxButton*)evt.GetEventObject();
+	wxColour color = btn->GetBackgroundColour();
+	size_t red = color.GetRed();
+	size_t green = color.GetGreen();
+	size_t blue = color.GetBlue();
+	if (type == wxEVT_ENTER_WINDOW)	{
+
+		red = truncate(red + 15);
+		green = truncate(green + 15);
+		blue = truncate(blue + 15);
+		btn->SetOwnBackgroundColour(wxColour(red,green,blue));
+		btn->Refresh();
+	}
+	else if (type == wxEVT_LEAVE_WINDOW) {
+		red = truncate(red - 15);
+		green = truncate(green - 15);
+		blue = truncate(blue - 15);
+		btn->SetOwnBackgroundColour(wxColour(red, green, blue));
+		btn->Refresh();
+	}
+
+	evt.Skip();
+}
+
+ void Window::OnButtonUnHover(wxMouseEvent& evt) {
+	wxButton* btn = (wxButton*)evt.GetEventObject();
+	wxColour newColor = btn->GetBackgroundColour();
+	btn->SetBackgroundColour(newColor.ChangeLightness(45));
 	evt.Skip();
 }
 

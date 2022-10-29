@@ -15,6 +15,7 @@ public:
     void SetWindowGridSizer(wxGridSizer* gridSizer);
     void SetTextControl(wxTextCtrl* textCtrl);
     void OnButtonClick(wxCommandEvent& evt);
+    void OnButtonHover(wxMouseEvent& evt);
     void OnChar(wxKeyEvent& evt);
 private:
     wxBoxSizer* _sizer = nullptr;
@@ -25,6 +26,7 @@ private:
     wxArrayString _includeList;
     wxTextCtrl* _output = nullptr;
     std::unordered_map<ids, std::string> _btnPairs{};
+    wxColour original;
     void AddToSizer();
     void AddToIncludes();
 };

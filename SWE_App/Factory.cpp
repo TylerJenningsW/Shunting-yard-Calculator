@@ -44,8 +44,10 @@ void Factory::CreateButtons(wxGridSizer* grid, Window* parent)
 		}
 		// Set text color
 		btn->SetOwnForegroundColour(wxColour(255, 255, 255));
-
 		btn->Bind(wxEVT_BUTTON, &Window::OnButtonClick, parent);
+		btn->Bind(wxEVT_ENTER_WINDOW, &Window::OnButtonHover, parent);
+		btn->Bind(wxEVT_LEAVE_WINDOW, &Window::OnButtonHover, parent);
+
 		grid->Add(btn, 0, wxEXPAND);
 		--j;
 	}
