@@ -235,7 +235,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			break;
 		}
 		// no need for comparison if the stack is empty
-		else if (_tokenStack.empty() && _token1._type != Token::NUMBER) {
+		else if (_tokenStack.empty() && _token1._type != Token::NUMBER && _token1._type != Token::NONE) {
 			_tokenStack.push(_token1);
 			++opCount;
 			continue;
