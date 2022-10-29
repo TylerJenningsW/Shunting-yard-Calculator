@@ -184,7 +184,8 @@ bool CalculatorProcessor::EvaluateExpression() {
 		}
 		// tokenize number if at the end of the number
 		// i.e not a digit, or expression is over
-		else if(((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) || i != (strToEval.length() - 1) && opCount < 1)) {
+		else if(((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) && i != (strToEval.length() - 1)
+			&& opCount < 1)) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
@@ -272,7 +273,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 	}
 	// push everything into the final reverse polish notation queue
 	else {
-		for (size_t i = 0; i <= _tokenStack.size(); ++i) {
+		while (!_tokenStack.empty()) {
 			Token token = _tokenStack.top();
 			_tokenStack.pop();
 			_tokenQueue.push(token);
