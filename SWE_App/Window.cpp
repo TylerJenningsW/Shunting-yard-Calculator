@@ -96,13 +96,6 @@ void Window::OnButtonHover(wxMouseEvent& evt) {
 	evt.Skip();
 }
 
- void Window::OnButtonUnHover(wxMouseEvent& evt) {
-	wxButton* btn = (wxButton*)evt.GetEventObject();
-	wxColour newColor = btn->GetBackgroundColour();
-	btn->SetBackgroundColour(newColor.ChangeLightness(45));
-	evt.Skip();
-}
-
 void Window::AddToSizer() {
 	_sizer->Add(_output, 1, wxEXPAND | wxTOP | wxBOTTOM | wxLEFT | wxRIGHT);
 	_sizer->Add(_gridSizer, 10, wxEXPAND);
