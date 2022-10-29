@@ -38,7 +38,7 @@ namespace SWEAppTests
 			CalculatorProcessor* calc = CalculatorProcessor::GetInstance();
 			double result6 = calc->SIN(1.0);
 			bool valid = false;
-			if (result6 > 0.84 && result6 < 0.86)
+			if (result6 > 0.017 && result6 < 0.019)
 			{
 				valid = true;
 			}
@@ -48,7 +48,7 @@ namespace SWEAppTests
 			CalculatorProcessor* calc = CalculatorProcessor::GetInstance();
 			double result7 = calc->COS(1.0);
 			bool valid = false;
-			if (result7 > 0.54 && result7 < 0.56)
+			if (result7 > 0.98 && result7 < 1.01)
 			{
 				valid = true;
 			}
@@ -58,7 +58,7 @@ namespace SWEAppTests
 			CalculatorProcessor* calc = CalculatorProcessor::GetInstance();
 			double result8 = calc->TAN(1.0);
 			bool valid = false;
-			if (result8 > 1.54 && result8 < 1.56)
+			if (result8 > 0.017 && result8 < 0.019)
 			{
 				valid = true;
 			}
