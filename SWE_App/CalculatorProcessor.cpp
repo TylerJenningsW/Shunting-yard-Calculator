@@ -1,6 +1,8 @@
 #include "CalculatorProcessor.h"
 #include "Window.h"
 #include "idList.h"
+#include <fstream>
+#include <sstream>
 #define PI 3.14159265
 
 CalculatorProcessor* CalculatorProcessor::_processor = nullptr;
@@ -369,13 +371,24 @@ void CalculatorProcessor::Truncate() {
 	if (_error == true)	{
 		return;
 	}
+	std::stringstream ss; //for parsing int
+	std::string decimalPlacesStr = "";
+	std::fstream config;
 	int count = 0;
+	int decimalPlaces = 0;
+	config.open("config.txt", std::ios::in);
+	if (config.is_open()) {
+		std::getline(config, decimalPlacesStr);
+		config.close();
+	}
+	ss << decimalPlacesStr;
+	ss >> decimalPlaces;
 	for (unsigned int i = _result.length() - 1; i > 0; --i)	{
 		if (_result[i] != '.') {
 			++count;
 			continue;
 		}
-		_result.erase(i+1, count-2);
+		_result.erase(i+1, count-decimalPlaces);
 	}
 }
 CalculatorProcessor* CalculatorProcessor::GetInstance() {

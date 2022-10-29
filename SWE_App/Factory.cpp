@@ -23,8 +23,6 @@ void Factory::CreateButtons(wxGridSizer* grid, Window* parent)
 	int x = 0;
 	for (int i = (ids::COS); i >= ids::EQUALS; --i) {
 		std::istringstream is(_idStrings[j]);
-
-		// use is like an input stream
 		is >> x;
 		wxButton* btn = new wxButton(parent, (ids)i, _idStrings[j], wxDefaultPosition, wxSize(wxDefaultSize), wxBORDER_NONE);
 		btn->SetFont(wxFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_SEMIBOLD, false));
