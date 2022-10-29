@@ -38,24 +38,23 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		if (strToEval == "") {
 			return;
 		}
-		for (unsigned int i = (strToEval.length()-1); i >= 0; --i)	{
+		unsigned int n = (strToEval.length() - 2);
+		for (unsigned int i = n; i >= 0; --i)	{
 			char c = strToEval[i];
 			if ((std::isdigit(c) || c == ')' || c == '.') && i != 0) {
 				continue;
 			}
-			else if (c == '-') {
-				strToEval.erase(i, 1);
-				break;
-			}
 			else if (c == strToEval[0] && c == '-') {
 				strToEval.erase(0, 1);
 				break;
-
 			}
 			else if (c == strToEval[0]) {
 				strToEval.insert(i, "-");
 				break;
-
+			}
+			else if (c == '-' && !std::isdigit(strToEval[i-1]) && strToEval[i - 1] != ')') {
+				strToEval.erase(i, 1);
+				break;
 			}
 			else if (std::isdigit(strToEval[i-1])) {
 				strToEval.insert(i+1, "-");
@@ -99,7 +98,7 @@ std::string CalculatorProcessor::Calculate() {
 			_error = BinaryFunction();
 			_results._value = Add(_token3._value, _token2._value);
 		}
-		else if (_token1._symbol == '_') {
+		else if (_token1._symbol == '-') {
 			_error = BinaryFunction();
 			_results._value = Subtract(_token3._value, _token2._value);
 		}
@@ -152,29 +151,40 @@ bool CalculatorProcessor::EvaluateExpression() {
 	// grab expression
 	unsigned int i = 0;
 	unsigned int opCount = 0;
+	bool isOperator = false;
 	for (i; i < strToEval.length(); ++i) {
+		char c = strToEval[i];
+		isOperator = false;
 		// if user were to spam symbols that couldn't be calculated
 		if (opCount > 1) {
 			_error = true;
 			break;
 		}
+		// determine if char is op or negative
+		if (strToEval[i] == '-' && i != 0 && strToEval[i-1] != '-') {
+			isOperator = true;
+		}
 		// track the number string to be tokenized
-		if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-') && strToEval[i] != strToEval.back()) {
+		if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-')// number cases
+			&& i != (strToEval.length()-1)// not the end of the string
+			&& isOperator == false)// and isn't an operation
+		{
 			_currNumber += strToEval[i];
 			opCount = 0;
 			continue;
 		}
 		// tokenize number if at the end of the equation
-		else if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-')) {
+		else if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-') 
+			&& isOperator == false) {
 			_currNumber += strToEval[i];
-			Number(_token1,_currNumber);
+			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
 			opCount = 0;
 		}
 		// tokenize number if at the end of the number
 		// i.e not a digit, or expression is over
-		else if(((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) || strToEval[i] == strToEval.back()) && opCount < 1) {
+		else if(((_currNumber != "" && !(std::isdigit(strToEval[i]) || strToEval[i] == '.')) || i != (strToEval.length() - 1) && opCount < 1)) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
@@ -184,7 +194,11 @@ bool CalculatorProcessor::EvaluateExpression() {
 			break;
 		}
 		// tokenize operators
-		if (strToEval[i] == '_' || strToEval[i] == '+') {
+		if (strToEval[i] == '-' && isOperator == true) {
+			_token1._symbol = strToEval[i];
+			OperationLowest(_token1);
+		}
+		else if (strToEval[i] == '+') {
 			_token1._symbol = strToEval[i];
 			OperationLowest(_token1);
 		}

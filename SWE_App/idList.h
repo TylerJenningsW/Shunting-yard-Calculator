@@ -39,7 +39,7 @@ static std::string _idStrings[]{
 		"3",
 		"2",
 		"1",
-		"_",
+		"-",
 		"6",
 		"5",
 		"4",
