@@ -404,6 +404,7 @@ void CalculatorProcessor::Truncate() {
 	std::stringstream ss; //for parsing int
 	std::string decimalPlacesStr = "";
 	std::fstream config;
+	int count = 0;
 	int decimalPlaces = 0;
 	config.open("config.txt", std::ios::in);
 	if (config.is_open()) {
@@ -414,9 +415,10 @@ void CalculatorProcessor::Truncate() {
 	ss >> decimalPlaces;
 	for (unsigned int i = _result.length() - 1; i > 0; --i) {
 		if (_result[i] != '.') {
+			++count;
 			continue;
 		}
-		_result.erase(i + decimalPlaces + 1, i - decimalPlaces);
+		_result.erase(i + decimalPlaces + 1, count - decimalPlaces);
 	}
 }
 CalculatorProcessor* CalculatorProcessor::GetInstance() {
