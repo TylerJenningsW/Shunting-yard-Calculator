@@ -33,7 +33,7 @@ void Factory::CreateButtons(wxGridSizer* grid, Window* parent)
 		else if (i == (ids::CLEAR)) {
 			btn->SetOwnBackgroundColour(wxColour(255, 70, 0));
 		}
-		else if (x || _idStrings[j] == '0' || _idStrings[j] == "+/-" || _idStrings[j] == "MOD")
+		else if (x || _idStrings[j] == '0' || _idStrings[j] == "+/-" || _idStrings[j] == ".")
 		{
 			btn->SetOwnBackgroundColour(wxColour(18, 18, 19));
 		}

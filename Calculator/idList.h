@@ -5,7 +5,7 @@ static enum ids : int {
 	MAINWINDOW = 10000 + 1,
 	OUTPUT,
 	EQUALS,
-	MOD,
+	DECI,
 	ZERO,
 	NEGATIVE,
 	PLUS,
@@ -32,7 +32,7 @@ static enum ids : int {
 static std::string _idStrings[]{
 		" ",
 		"=",
-		"MOD",
+		".",
 		"0",
 		"+/-",
 		"+",
