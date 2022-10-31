@@ -39,7 +39,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 			return;
 		}
 		unsigned int n = (strToEval.length() - 2);
-		for (unsigned int i = n; i >= 0; --i)	{
+		for (unsigned int i = n; i >= 0; --i) {
 			char c = strToEval[i];
 			if ((std::isdigit(c) || c == ')' || c == '.') && i != 0) {
 				continue;
@@ -52,12 +52,12 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 				strToEval.insert(i, "-");
 				break;
 			}
-			else if (c == '-' && !std::isdigit(strToEval[i-1]) && strToEval[i - 1] != ')') {
+			else if (c == '-' && !std::isdigit(strToEval[i - 1]) && strToEval[i - 1] != ')') {
 				strToEval.erase(i, 1);
 				break;
 			}
-			else if (std::isdigit(strToEval[i-1])) {
-				strToEval.insert(i+1, "-");
+			else if (std::isdigit(strToEval[i - 1])) {
+				strToEval.insert(i + 1, "-");
 				break;
 			}
 		}
@@ -69,7 +69,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		return;
 	}
 	if (id == ids::BACK && strToEval != "") {
-		strToEval.erase(strToEval.length() - 1,1);
+		strToEval.erase(strToEval.length() - 1, 1);
 		txt->Clear();
 		pressed = strToEval;
 	}
@@ -80,7 +80,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 }
 
 std::string CalculatorProcessor::Calculate() {
-	if (_error == true)	{
+	if (_error == true) {
 		return "";
 	}
 	while (!_tokenQueue.empty()) {
@@ -158,11 +158,19 @@ bool CalculatorProcessor::EvaluateExpression() {
 	unsigned int i = 0;
 	unsigned int opCount = 0;
 	bool isOperator = false;
+	int decimalCount = 0;
 	for (i; i < strToEval.length(); ++i) {
 		char c = strToEval[i];
 		isOperator = false;
 		// if user were to spam symbols that couldn't be calculated
 		if (opCount > 1) {
+			_error = true;
+			break;
+		}
+		if (strToEval[i] == '.') {
+			++decimalCount;
+		}
+		if (decimalCount > 1) {
 			_error = true;
 			break;
 		}
@@ -172,7 +180,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 		}
 		// track the number string to be tokenized
 		if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-')// number cases
-			&& i != (strToEval.length()-1)// not the end of the string
+			&& i != (strToEval.length() - 1)// not the end of the string
 			&& isOperator == false)// and isn't an operation
 		{
 			_currNumber += strToEval[i];
@@ -186,14 +194,16 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_tokenQueue.push(_token1);
 			_currNumber = "";
 			opCount = 0;
+			decimalCount = 0;
 		}
 		// tokenize number if at the end of the number
 		// i.e not a digit, or expression is over
-		else if (((_currNumber != "" && !(std::isdigit(strToEval[i]) )) || i == (strToEval.length()-1)
+		else if (((_currNumber != "" && !(std::isdigit(strToEval[i]))) || i == (strToEval.length() - 1)
 			&& opCount < 1)) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
+			decimalCount = 0;
 		}
 		else if (!(std::isdigit(strToEval[i])) && opCount > 1) {
 			_error = true;
@@ -246,7 +256,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			++opCount;
 		}
 		// swap high precedence operator onto the queue
-		else if (_token1._type == Token::OPERATION && 
+		else if (_token1._type == Token::OPERATION &&
 			_token1._precedence < _tokenStack.top()._precedence
 			&& _tokenStack.top()._type == Token::OPERATION) {
 			Token token = _tokenStack.top();
@@ -267,13 +277,13 @@ bool CalculatorProcessor::EvaluateExpression() {
 				_error = true;
 				break;
 			}
-			else if (_tokenStack.top()._type == Token::LPEN)	{
+			else if (_tokenStack.top()._type == Token::LPEN) {
 				_tokenStack.pop();
 			}
 		}
 	}
 	// no operators case
-	if (_tokenStack.size() == 0)	{
+	if (_tokenStack.size() == 0) {
 		_error = true;
 	}
 	// push everything into the final reverse polish notation queue
@@ -289,7 +299,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 }
 
 double CalculatorProcessor::Add(double x, double y) {
-	Number(_results, std::to_string(x+y));
+	Number(_results, std::to_string(x + y));
 	return x + y;
 }
 double CalculatorProcessor::Subtract(double x, double y) {
@@ -320,8 +330,8 @@ std::string CalculatorProcessor::MultiplyParentheses() {
 	return strToEval;
 }
 double CalculatorProcessor::MOD(double x, double y) {
-	Number(_results, std::to_string(std::fmod(x,y)));
-	return std::fmod(x,y);
+	Number(_results, std::to_string(std::fmod(x, y)));
+	return std::fmod(x, y);
 }
 double CalculatorProcessor::SIN(double x) {
 	Number(_results, std::to_string(std::sin(x)));
@@ -388,7 +398,7 @@ bool CalculatorProcessor::UnaryFunction() {
 	return true;
 }
 void CalculatorProcessor::Truncate() {
-	if (_error == true)	{
+	if (_error == true) {
 		return;
 	}
 	std::stringstream ss; //for parsing int
@@ -403,12 +413,12 @@ void CalculatorProcessor::Truncate() {
 	}
 	ss << decimalPlacesStr;
 	ss >> decimalPlaces;
-	for (unsigned int i = _result.length() - 1; i > 0; --i)	{
+	for (unsigned int i = _result.length() - 1; i > 0; --i) {
 		if (_result[i] != '.') {
 			++count;
 			continue;
 		}
-		_result.erase(i+1, count-decimalPlaces);
+		_result.erase(i + 1, count - decimalPlaces);
 	}
 }
 CalculatorProcessor* CalculatorProcessor::GetInstance() {
