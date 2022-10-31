@@ -38,7 +38,7 @@ void Factory::CreateButtons(wxGridSizer* grid, Window* parent)
 			btn->SetOwnBackgroundColour(wxColour(18, 18, 19));
 		}
 		else {
-			
+
 			btn->SetOwnBackgroundColour(wxColour(36, 36, 36));
 
 		}
@@ -63,10 +63,15 @@ void Factory::CreateSizers(Window* parent)
 
 void Factory::CreateTextCtrl(Window* parent, wxTextValidator* validator)
 {
+	int fontsize = 24;
+	parent->SetFontSize(fontsize);
+	wxFont font = wxFont(fontsize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false);
 	wxTextCtrl* _output = new wxTextCtrl(parent, ids::OUTPUT, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_RIGHT, *validator);
-	_output->SetFont(wxFont(24, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false));
+	parent->SetFont(fontsize);
+	_output->SetFont(font);
 	// Set textbox background and text color
 	_output->Bind(wxEVT_CHAR, wxCharEventHandler(Window::OnChar), parent);
+	_output->Bind(wxEVT_SIZE, &Window::OnSize, parent);
 	_output->SetBackgroundColour(wxColour(6, 11, 11));
 	_output->SetForegroundColour(wxColour(255, 255, 255));
 	parent->SetTextControl(_output);

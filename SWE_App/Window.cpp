@@ -22,7 +22,7 @@ Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosi
 	// minimum window size & open in center of screen
 	SetMinSize(wxSize(340, 540));
 	SetBackgroundColour(wxColour(0, 0, 0));
-	
+
 	Centre();
 }
 Window::~Window() {
@@ -51,6 +51,11 @@ void Window::SetTextControl(wxTextCtrl* textCtrl) {
 	_output = textCtrl;
 }
 
+void Window::SetFontSize(int size)
+{
+	_fontSize = size;
+}
+
 void Window::OnButtonClick(wxCommandEvent& evt) {
 	// fetch singleton to parse event
 	CalculatorProcessor* _processor = CalculatorProcessor::GetInstance();
@@ -60,7 +65,7 @@ void Window::OnButtonClick(wxCommandEvent& evt) {
 
 void Window::OnChar(wxKeyEvent& evt) {
 	// Evaluate expression if enter key is pressed
-	if (evt.GetKeyCode() == WXK_RETURN)	{
+	if (evt.GetKeyCode() == WXK_RETURN) {
 		CalculatorProcessor* _processor = CalculatorProcessor::GetInstance();
 		_processor->ParseId(this, (ids)evt.GetId());
 		return;
@@ -70,6 +75,12 @@ void Window::OnChar(wxKeyEvent& evt) {
 	evt.Skip();
 }
 
+void Window::SetFont(int fontsize) {
+
+	wxFont font = wxFont(fontsize, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false);
+	_font = font;
+}
+
 void Window::OnButtonHover(wxMouseEvent& evt) {
 	wxEventType type = evt.GetEventType();
 	wxButton* btn = (wxButton*)evt.GetEventObject();
@@ -77,12 +88,12 @@ void Window::OnButtonHover(wxMouseEvent& evt) {
 	size_t red = color.GetRed();
 	size_t green = color.GetGreen();
 	size_t blue = color.GetBlue();
-	if (type == wxEVT_ENTER_WINDOW)	{
+	if (type == wxEVT_ENTER_WINDOW) {
 
 		red = truncate(red + 15);
 		green = truncate(green + 15);
 		blue = truncate(blue + 15);
-		btn->SetOwnBackgroundColour(wxColour(red,green,blue));
+		btn->SetOwnBackgroundColour(wxColour(red, green, blue));
 		btn->Refresh();
 	}
 	else if (type == wxEVT_LEAVE_WINDOW) {
@@ -93,6 +104,18 @@ void Window::OnButtonHover(wxMouseEvent& evt) {
 		btn->Refresh();
 	}
 
+	evt.Skip();
+}
+
+void Window::OnSize(wxSizeEvent& evt) {
+
+	wxTextCtrl* txt = (wxTextCtrl*)evt.GetEventObject();
+	wxSize size = txt->GetSize();
+	int y = size.GetHeight();
+	_fontSize = (y / 3) * 2;
+	SetFont(_fontSize);
+	txt->SetFont(_font);
+	txt->SetMinSize(wxSize(324, 46));
 	evt.Skip();
 }
 

@@ -7,17 +7,22 @@ enum ids;
 class Factory;
 class Window : public wxFrame {
 public:
-	Window();
+    Window();
     ~Window();
     wxTextCtrl* GetOutput();
     std::unordered_map<ids, std::string> GetPairs();
     void SetWindowSizer(wxBoxSizer* sizer);
     void SetWindowGridSizer(wxGridSizer* gridSizer);
     void SetTextControl(wxTextCtrl* textCtrl);
+    void SetFontSize(int size);
+    void SetFont(int fontsize);
     void OnButtonClick(wxCommandEvent& evt);
     void OnButtonHover(wxMouseEvent& evt);
     void OnChar(wxKeyEvent& evt);
+    void OnSize(wxSizeEvent& evt);
 private:
+    int _fontSize = 24;
+    wxFont _font;
     wxBoxSizer* _sizer = nullptr;
     wxGridSizer* _gridSizer = nullptr;
     std::string _currNumberStr = "";
@@ -30,4 +35,3 @@ private:
     void AddToSizer();
     void AddToIncludes();
 };
-
