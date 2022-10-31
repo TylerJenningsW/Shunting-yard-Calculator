@@ -21,19 +21,19 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SWE_App\CalculatorProcessor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SWE_App\Token.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SWE_App\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SWE_App\Factory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonFactoryTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Calculator\CalculatorProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Calculator\Factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Calculator\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Calculator\Token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,19 +41,19 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SWE_App\CalculatorProcessor.h">
+    <ClInclude Include="..\Calculator\CalculatorProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SWE_App\Token.h">
+    <ClInclude Include="..\Calculator\Factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SWE_App\Window.h">
+    <ClInclude Include="..\Calculator\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SWE_App\Factory.h">
+    <ClInclude Include="..\Calculator\idList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SWE_App\idList.h">
+    <ClInclude Include="..\Calculator\Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
-#include "../SWE_App/Window.h"
-#include "../SWE_App/CalculatorProcessor.h"
+#include "../Calculator/Window.h"
+#include "../Calculator/CalculatorProcessor.h"
 #include "pch.h"
 #include "CppUnitTest.h"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

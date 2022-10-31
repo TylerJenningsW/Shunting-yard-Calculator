@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SWE_App", "SWE_App\SWE_App.vcxproj", "{BD52345F-FDF1-43F0-A184-83335AC786D1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Calculator", "Calculator\Calculator.vcxproj", "{BD52345F-FDF1-43F0-A184-83335AC786D1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SWE_AppTest", "SWE_AppTest\SWE_AppTest.vcxproj", "{DBA7A5AC-2AE8-4E79-9DC4-ECED8AF0A8B2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CalculatorTest", "CalculatorTest\CalculatorTest.vcxproj", "{DBA7A5AC-2AE8-4E79-9DC4-ECED8AF0A8B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

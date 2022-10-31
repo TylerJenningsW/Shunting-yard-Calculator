@@ -1,6 +1,6 @@
-#include "../SWE_App/Window.h"
-#include "../SWE_App/Factory.h"
-#include "../SWE_App/idList.h"
+#include "../Calculator/Window.h"
+#include "../Calculator/Factory.h"
+#include "../Calculator/idList.h"
 #include "pch.h"
 #include "CppUnitTest.h"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

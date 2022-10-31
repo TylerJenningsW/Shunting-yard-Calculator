@@ -22,9 +22,10 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{DBA7A5AC-2AE8-4E79-9DC4-ECED8AF0A8B2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SWEAppTest</RootNamespace>
+    <RootNamespace>CalculatorTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
+    <ProjectName>CalculatorTest</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -96,11 +97,15 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>c:\wxWidgets\lib\vc_x64_lib</AdditionalLibraryDirectories>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -156,10 +161,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\SWE_App\CalculatorProcessor.cpp" />
-    <ClCompile Include="..\SWE_App\Factory.cpp" />
-    <ClCompile Include="..\SWE_App\Token.cpp" />
-    <ClCompile Include="..\SWE_App\Window.cpp" />
+    <ClCompile Include="..\Calculator\CalculatorProcessor.cpp" />
+    <ClCompile Include="..\Calculator\Factory.cpp" />
+    <ClCompile Include="..\Calculator\Token.cpp" />
+    <ClCompile Include="..\Calculator\Window.cpp" />
     <ClCompile Include="ButtonFactoryTests.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -170,11 +175,11 @@
     <ClCompile Include="CalculatorProcessorTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SWE_App\CalculatorProcessor.h" />
-    <ClInclude Include="..\SWE_App\Factory.h" />
-    <ClInclude Include="..\SWE_App\idList.h" />
-    <ClInclude Include="..\SWE_App\Token.h" />
-    <ClInclude Include="..\SWE_App\Window.h" />
+    <ClInclude Include="..\Calculator\CalculatorProcessor.h" />
+    <ClInclude Include="..\Calculator\Factory.h" />
+    <ClInclude Include="..\Calculator\idList.h" />
+    <ClInclude Include="..\Calculator\Token.h" />
+    <ClInclude Include="..\Calculator\Window.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
