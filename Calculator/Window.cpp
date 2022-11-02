@@ -125,6 +125,8 @@ void Window::AddToSizer() {
 }
 void Window::AddToIncludes() {
 	_includeList.Add("\n");
+	_includeList.Add("^");
+	_includeList.Add(".");
 	_includeList.Add("_");
 	_includeList.Add("+");
 	_includeList.Add("-");
