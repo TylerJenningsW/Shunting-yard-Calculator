@@ -167,9 +167,17 @@ bool CalculatorProcessor::EvaluateExpression() {
 	unsigned int opCount = 0;
 	bool isOperator = false;
 	int decimalCount = 0;
+	int negativeCount = 0;
 	for (i; i < strToEval.length(); ++i) {
 		char c = strToEval[i];
 		isOperator = false;
+		// determine if char is op or negative
+		if (strToEval[i] == '-' && i != 0 && strToEval[i - 1] != '-' && strToEval[i - 1] != '(') {
+			isOperator = true;
+		}
+		else if (isOperator != true && strToEval[i] == '-') {
+			++negativeCount;
+		}
 		// if user were to spam symbols that couldn't be calculated
 		if (opCount > 1) {
 			_error = true;
@@ -178,13 +186,9 @@ bool CalculatorProcessor::EvaluateExpression() {
 		if (strToEval[i] == '.') {
 			++decimalCount;
 		}
-		if (decimalCount > 1) {
+		if (decimalCount > 1 || opCount > 1 || negativeCount > 1) {
 			_error = true;
 			break;
-		}
-		// determine if char is op or negative
-		if (strToEval[i] == '-' && i != 0 && strToEval[i - 1] != '-' && strToEval[i - 1] != '(') {
-			isOperator = true;
 		}
 		// track the number string to be tokenized
 		if ((std::isdigit(strToEval[i]) || strToEval[i] == '.' || strToEval[i] == '-')// number cases
@@ -203,15 +207,17 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_currNumber = "";
 			opCount = 0;
 			decimalCount = 0;
+			negativeCount = 0;
 		}
 		// tokenize number if at the end of the number
 		// i.e not a digit, or expression is over
 		else if ((_currNumber != "" && !(std::isdigit(strToEval[i])) || (_currNumber != "" && i == (strToEval.length() - 1)
 			&& opCount < 1))) {
-			Number(_token1, _currNumber);
+			_error = Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
 			decimalCount = 0;
+			negativeCount = 0;
 		}
 		else if (!(std::isdigit(strToEval[i])) && opCount > 1) {
 			_error = true;
@@ -252,7 +258,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			i += 2;
 		}
 		// parenthesis mismatch case
-		if (_tokenStack.empty() && _token1._type == Token::RPEN) {
+		if ((_tokenStack.empty() && _token1._type == Token::RPEN)) {
 			_error = true;
 			break;
 		}
@@ -311,19 +317,19 @@ bool CalculatorProcessor::EvaluateExpression() {
 }
 
 double CalculatorProcessor::Add(double x, double y) {
-	Number(_results, std::to_string(x + y));
+	_error = Number(_results, std::to_string(x + y));
 	return x + y;
 }
 double CalculatorProcessor::Subtract(double x, double y) {
-	Number(_results, std::to_string(x - y));
+	_error = Number(_results, std::to_string(x - y));
 	return x - y;
 }
 double CalculatorProcessor::Divide(double x, double y) {
-	Number(_results, std::to_string(x / y));
+	_error = Number(_results, std::to_string(x / y));
 	return x / y;
 }
 double CalculatorProcessor::Multiply(double x, double y) {
-	Number(_results, std::to_string(x * y));
+	_error = Number(_results, std::to_string(x * y));
 	return x * y;
 }
 std::string CalculatorProcessor::MultiplyParentheses() {
@@ -341,30 +347,34 @@ std::string CalculatorProcessor::MultiplyParentheses() {
 	return strToEval;
 }
 double CalculatorProcessor::MOD(double x, double y) {
-	Number(_results, std::to_string(std::fmod(x, y)));
+	_error = Number(_results, std::to_string(std::fmod(x, y)));
 	return std::fmod(x, y);
 }
 double CalculatorProcessor::EXPONENT(double x, double y) {
-	Number(_results, std::to_string(std::pow(x, y)));
+	_error = Number(_results, std::to_string(std::pow(x, y)));
 	return std::pow(x,y);
 }
 double CalculatorProcessor::SIN(double x) {
-	Number(_results, std::to_string(std::sin(x)));
+	_error = Number(_results, std::to_string(std::sin(x)));
 	return std::sin(x * PI / 180.0);
 }
 double CalculatorProcessor::COS(double x) {
-	Number(_results, std::to_string(std::cos(x)));
+	_error = Number(_results, std::to_string(std::cos(x)));
 	return std::cos(x * PI / 180.0);
 }
 double CalculatorProcessor::TAN(double x) {
-	Number(_results, std::to_string(std::tan(x)));
+	_error = Number(_results, std::to_string(std::tan(x)));
 	return std::tan(x * PI / 180.0);
 }
-void CalculatorProcessor::Number(Token& token, std::string str) {
-	token._symbol = str;
-	token._value = std::stod(str);
-	token._type = Token::NUMBER;
-	token._precedence = 0;
+bool CalculatorProcessor::Number(Token& token, std::string str) {
+	if (str != '.' && str != '-') {
+		token._symbol = str;
+		token._value = std::stod(str);
+		token._type = Token::NUMBER;
+		token._precedence = 0;
+		return false;
+	}
+	return true;
 }
 
 void CalculatorProcessor::OperationLowest(Token& token) {

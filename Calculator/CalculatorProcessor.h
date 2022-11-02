@@ -38,7 +38,7 @@ public:
 	double SIN(double x);
 	double COS(double x);
 	double TAN(double x);
-	void Number(Token& token, std::string str);
+	bool Number(Token& token, std::string str);
 	void OperationLowest(Token& token);
 	void OperationHigh(Token& token);
 	void OperationExponent(Token& token);
