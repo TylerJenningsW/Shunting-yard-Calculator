@@ -202,8 +202,8 @@ bool CalculatorProcessor::EvaluateExpression() {
 		}
 		// tokenize number if at the end of the number
 		// i.e not a digit, or expression is over
-		else if (((_currNumber != "" && !(std::isdigit(strToEval[i]))) || i == (strToEval.length() - 1)
-			&& opCount < 1)) {
+		else if ((_currNumber != "" && !(std::isdigit(strToEval[i])) || (_currNumber != "" && i == (strToEval.length() - 1)
+			&& opCount < 1))) {
 			Number(_token1, _currNumber);
 			_tokenQueue.push(_token1);
 			_currNumber = "";
@@ -291,7 +291,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 		}
 	}
 	// no operators case
-	if (_tokenStack.size() == 0) {
+	if (_tokenStack.size() == 0 || _tokenQueue.size() == 0) {
 		_error = true;
 	}
 	// push everything into the final reverse polish notation queue
@@ -323,7 +323,6 @@ double CalculatorProcessor::Multiply(double x, double y) {
 	return x * y;
 }
 std::string CalculatorProcessor::MultiplyParentheses() {
-
 	for (int i = 0; i < strToEval.length(); ++i) {
 		if (strToEval[i] != '(' && strToEval[i] != ')') {
 			continue;
