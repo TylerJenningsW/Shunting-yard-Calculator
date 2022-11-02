@@ -156,6 +156,10 @@ void CalculatorProcessor::CleanUp() {
 }
 
 bool CalculatorProcessor::EvaluateExpression() {
+	if (strToEval.length() > 256) {
+		_error = true;
+		return _error;
+	}
 	// check if multiplication is implied by parentheses
 	strToEval = MultiplyParentheses();
 	// grab expression
