@@ -178,14 +178,10 @@ bool CalculatorProcessor::EvaluateExpression() {
 		else if (isOperator != true && strToEval[i] == '-') {
 			++negativeCount;
 		}
-		// if user were to spam symbols that couldn't be calculated
-		if (opCount > 1) {
-			_error = true;
-			break;
-		}
 		if (strToEval[i] == '.') {
 			++decimalCount;
 		}
+		// if user were to spam symbols that couldn't be calculated
 		if (decimalCount > 1 || opCount > 1 || negativeCount > 1) {
 			_error = true;
 			break;
