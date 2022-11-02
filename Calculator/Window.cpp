@@ -22,7 +22,9 @@ Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosi
 	// minimum window size & open in center of screen
 	SetMinSize(wxSize(340, 540));
 	SetBackgroundColour(wxColour(0, 0, 0));
-
+	wxInitAllImageHandlers();
+	wxIcon icon{ "images/calc.png", wxBITMAP_TYPE_PNG, 32, 32 };
+	this->SetIcon(icon);
 	Centre();
 }
 Window::~Window() {
