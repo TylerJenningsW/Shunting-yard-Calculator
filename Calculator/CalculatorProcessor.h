@@ -34,12 +34,14 @@ public:
 	double Multiply(double x, double y);
 	std::string MultiplyParentheses();
 	double MOD(double x, double y);
+	double EXPONENT(double x, double y);
 	double SIN(double x);
 	double COS(double x);
 	double TAN(double x);
 	void Number(Token& token, std::string str);
 	void OperationLowest(Token& token);
-	void OperationHighest(Token& token);
+	void OperationHigh(Token& token);
+	void OperationExponent(Token& token);
 	void LeftParenthesis(Token& token);
 	void RightParenthesis(Token& token);
 	void Function(Token& token);

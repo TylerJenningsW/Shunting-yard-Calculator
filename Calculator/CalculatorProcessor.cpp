@@ -114,6 +114,10 @@ std::string CalculatorProcessor::Calculate() {
 			_error = BinaryFunction();
 			_results._value = MOD(_token3._value, _token2._value);
 		}
+		else if (_token1._symbol == '^') {
+			_error = BinaryFunction();
+			_results._value = EXPONENT(_token3._value, _token2._value);
+		}
 		else if (_token1._symbol == "S") {
 			_error = UnaryFunction();
 			_results._value = SIN(_token2._value);
@@ -220,7 +224,11 @@ bool CalculatorProcessor::EvaluateExpression() {
 		}
 		else if (strToEval[i] == '*' || strToEval[i] == '/' || strToEval[i] == '%') {
 			_token1._symbol = strToEval[i];
-			OperationHighest(_token1);
+			OperationHigh(_token1);
+		}
+		else if (strToEval[i] == '^') {
+			_token1._symbol = strToEval[i];
+			OperationExponent(_token1);
 		}
 		// tokenize parentheses
 		else if (strToEval[i] == '(') {
@@ -333,6 +341,10 @@ double CalculatorProcessor::MOD(double x, double y) {
 	Number(_results, std::to_string(std::fmod(x, y)));
 	return std::fmod(x, y);
 }
+double CalculatorProcessor::EXPONENT(double x, double y) {
+	Number(_results, std::to_string(std::pow(x, y)));
+	return std::pow(x,y);
+}
 double CalculatorProcessor::SIN(double x) {
 	Number(_results, std::to_string(std::sin(x)));
 	return std::sin(x * PI / 180.0);
@@ -358,10 +370,16 @@ void CalculatorProcessor::OperationLowest(Token& token) {
 	token._precedence = 2;
 }
 
-void CalculatorProcessor::OperationHighest(Token& token) {
+void CalculatorProcessor::OperationHigh(Token& token) {
 	token._value = 0;
 	token._type = Token::OPERATION;
 	token._precedence = 3;
+}
+
+void CalculatorProcessor::OperationExponent(Token& token) {
+	token._value = 0;
+	token._type = Token::OPERATION;
+	token._precedence = 4;
 }
 
 void CalculatorProcessor::LeftParenthesis(Token& token) {
