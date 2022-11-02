@@ -56,10 +56,26 @@ void Window::SetFontSize(int size)
 	_fontSize = size;
 }
 
-void Window::OnButtonClick(wxCommandEvent& evt) {
+void Window::OnButton(wxCommandEvent& evt) {
 	// fetch singleton to parse event
 	CalculatorProcessor* _processor = CalculatorProcessor::GetInstance();
 	_processor->ParseId(this, (ids)evt.GetId());
+	evt.Skip();
+}
+
+void Window::OnButtonClick(wxMouseEvent& evt) {
+	wxEventType type = evt.GetEventType();
+	wxButton* btn = (wxButton*)evt.GetEventObject();
+	wxColour color = btn->GetBackgroundColour();
+	size_t red = color.GetRed();
+	size_t green = color.GetGreen();
+	size_t blue = color.GetBlue();
+	if (type == wxEVT_LEFT_DOWN) {
+		IncreaseLight(btn, red, green, blue);
+	}
+	else if (type == wxEVT_LEFT_UP) {
+		DecreaseLight(btn, red, green, blue);
+	}
 	evt.Skip();
 }
 
@@ -89,26 +105,15 @@ void Window::OnButtonHover(wxMouseEvent& evt) {
 	size_t green = color.GetGreen();
 	size_t blue = color.GetBlue();
 	if (type == wxEVT_ENTER_WINDOW) {
-
-		red = truncate(red + 15);
-		green = truncate(green + 15);
-		blue = truncate(blue + 15);
-		btn->SetOwnBackgroundColour(wxColour(red, green, blue));
-		btn->Refresh();
+		IncreaseLight(btn, red, green, blue);
 	}
 	else if (type == wxEVT_LEAVE_WINDOW) {
-		red = truncate(red - 15);
-		green = truncate(green - 15);
-		blue = truncate(blue - 15);
-		btn->SetOwnBackgroundColour(wxColour(red, green, blue));
-		btn->Refresh();
+		DecreaseLight(btn, red, green, blue);
 	}
-
 	evt.Skip();
 }
 
 void Window::OnSize(wxSizeEvent& evt) {
-
 	wxTextCtrl* txt = (wxTextCtrl*)evt.GetEventObject();
 	wxSize size = txt->GetSize();
 	int y = size.GetHeight();
@@ -141,4 +146,20 @@ void Window::AddToIncludes() {
 	_validator = new wxTextValidator(wxFILTER_NUMERIC | wxFILTER_INCLUDE_CHAR_LIST);
 	_validator->SuppressBellOnError(true);
 	_validator->SetIncludes(_includeList);
+}
+
+void Window::IncreaseLight(wxButton* button, size_t red, size_t green, size_t blue) {
+	red = truncate(red + 15);
+	green = truncate(green + 15);
+	blue = truncate(blue + 15);
+	button->SetOwnBackgroundColour(wxColour(red, green, blue));
+	button->Refresh();
+}
+
+void Window::DecreaseLight(wxButton* button, size_t red, size_t green, size_t blue) {
+	red = truncate(red - 15);
+	green = truncate(green - 15);
+	blue = truncate(blue - 15);
+	button->SetOwnBackgroundColour(wxColour(red, green, blue));
+	button->Refresh();
 }

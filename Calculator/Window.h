@@ -16,7 +16,8 @@ public:
     void SetTextControl(wxTextCtrl* textCtrl);
     void SetFontSize(int size);
     void SetFont(int fontsize);
-    void OnButtonClick(wxCommandEvent& evt);
+    void OnButton(wxCommandEvent& evt);
+    void OnButtonClick(wxMouseEvent& evt);
     void OnButtonHover(wxMouseEvent& evt);
     void OnChar(wxKeyEvent& evt);
     void OnSize(wxSizeEvent& evt);
@@ -31,7 +32,8 @@ private:
     wxArrayString _includeList;
     wxTextCtrl* _output = nullptr;
     std::unordered_map<ids, std::string> _btnPairs{};
-    wxColour original;
     void AddToSizer();
     void AddToIncludes();
+    void IncreaseLight(wxButton* button, size_t red, size_t green, size_t blue);
+    void DecreaseLight(wxButton* button, size_t red, size_t green, size_t blue);
 };
