@@ -43,7 +43,7 @@ void Window::SetWindowSizer(wxBoxSizer* sizer) {
 	_sizer = sizer;
 }
 
-void Window::SetWindowGridSizer(wxGridSizer* gridSizer) {
+void Window::SetWindowGridSizer(wxFlexGridSizer* gridSizer) {
 	_gridSizer = gridSizer;
 }
 

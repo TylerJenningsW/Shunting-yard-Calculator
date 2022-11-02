@@ -12,7 +12,7 @@ public:
     wxTextCtrl* GetOutput();
     std::unordered_map<ids, std::string> GetPairs();
     void SetWindowSizer(wxBoxSizer* sizer);
-    void SetWindowGridSizer(wxGridSizer* gridSizer);
+    void SetWindowGridSizer(wxFlexGridSizer* gridSizer);
     void SetTextControl(wxTextCtrl* textCtrl);
     void SetFontSize(int size);
     void SetFont(int fontsize);
@@ -24,7 +24,7 @@ private:
     int _fontSize = 24;
     wxFont _font;
     wxBoxSizer* _sizer = nullptr;
-    wxGridSizer* _gridSizer = nullptr;
+    wxFlexGridSizer* _gridSizer = nullptr;
     std::string _currNumberStr = "";
     wxString _data = "";
     wxTextValidator* _validator = nullptr;

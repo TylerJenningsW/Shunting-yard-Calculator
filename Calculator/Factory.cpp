@@ -17,7 +17,7 @@ std::unordered_map<ids, std::string> Factory::FillPairs(std::string idStrings[],
 	return btns;
 }
 
-void Factory::CreateButtons(wxGridSizer* grid, Window* parent)
+void Factory::CreateButtons(wxFlexGridSizer* grid, Window* parent)
 {
 	int j = (ids::COS - ids::MAINWINDOW) - 1;
 	int x = 0;
@@ -57,7 +57,15 @@ void Factory::CreateSizers(Window* parent)
 {
 	wxBoxSizer* _sizer = new wxBoxSizer(wxVERTICAL);
 	parent->SetWindowSizer(_sizer);
-	wxGridSizer* _gridSizer = new wxGridSizer(6, 4, 0, 0);
+	int cols = 4;
+	int rows = 6;
+	wxFlexGridSizer* _gridSizer = new wxFlexGridSizer(rows, cols, 0, 0);
+	for (size_t i = 0; i < cols; i++) {
+		_gridSizer->AddGrowableCol(i);
+	}
+	for (size_t i = 0; i < rows; i++) {
+		_gridSizer->AddGrowableRow(i);
+	}
 	parent->SetWindowGridSizer(_gridSizer);
 }
 
