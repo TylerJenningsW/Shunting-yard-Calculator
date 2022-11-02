@@ -18,6 +18,10 @@ Run the following commands in terminal/command prompt:
 <pre><code>
 </code></pre>
 
+
+## Algorithm Explaination 🎥
+
+
 ## Screenshots/Examples 📷
 
 #### Layout
@@ -28,6 +32,7 @@ Run the following commands in terminal/command prompt:
 
 #### Resizable 
 <IMAGE>
+  
 
 ## Links 🔗
 
