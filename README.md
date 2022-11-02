@@ -41,4 +41,5 @@
 
 ## Links 🔗
 
-> [wxWidgets - Library](https://www.wxwidgets.org/)
+> [wxWidgets - Library](https://www.wxwidgets.org/) ![development-wxwidgets](https://user-images.githubusercontent.com/95639661/199485724-1726d764-b71b-41eb-ad08-a7f80b6a52a2.png)
+
