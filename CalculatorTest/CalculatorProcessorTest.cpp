@@ -4,7 +4,7 @@
 #include "CppUnitTest.h"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace SWEAppTests
+namespace CalculatorTest
 {
 	TEST_CLASS(CalculatorProcessorTest)
 	{
@@ -78,7 +78,7 @@ namespace SWEAppTests
 		TEST_METHOD(testhighest) {
 			CalculatorProcessor* calc = CalculatorProcessor::GetInstance();
 			Token token;
-			calc->OperationHighest(token);
+			calc->OperationHigh(token);
 			bool valid = false;
 			if (token._precedence == 3)
 			{

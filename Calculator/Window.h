@@ -7,7 +7,7 @@ enum ids;
 class Factory;
 class Window : public wxFrame {
 public:
-    Window();
+    Window(bool iconOn);
     ~Window();
     wxTextCtrl* GetOutput();
     std::unordered_map<ids, std::string> GetPairs();

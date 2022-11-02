@@ -30,10 +30,10 @@
     <ClCompile Include="..\Calculator\Factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Calculator\Window.cpp">
+    <ClCompile Include="..\Calculator\Token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Calculator\Token.cpp">
+    <ClCompile Include="..\Calculator\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,13 +47,13 @@
     <ClInclude Include="..\Calculator\Factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Calculator\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Calculator\idList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Calculator\Token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Calculator\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

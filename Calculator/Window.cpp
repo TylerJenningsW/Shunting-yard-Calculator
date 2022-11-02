@@ -4,8 +4,7 @@
 #include "CalculatorProcessor.h"
 #include "idlist.h"
 #include "Helper.h"
-
-Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosition, wxSize(340, 540)) {
+Window::Window(bool iconOn) : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosition, wxSize(340, 540)) {
 	// top sizer -> grid sizer
 	Factory::CreateSizers(this);
 	// include specific symbols and numbers
@@ -22,9 +21,11 @@ Window::Window() : wxFrame(nullptr, ids::MAINWINDOW, "Calculator", wxDefaultPosi
 	// minimum window size & open in center of screen
 	SetMinSize(wxSize(340, 540));
 	SetBackgroundColour(wxColour(0, 0, 0));
-	wxInitAllImageHandlers();
-	wxIcon icon{ "images/calc.png", wxBITMAP_TYPE_PNG, 32, 32 };
-	this->SetIcon(icon);
+	if (iconOn == true) {
+		wxInitAllImageHandlers();
+		wxIcon icon{ "images/calc.png", wxBITMAP_TYPE_PNG, 32, 32 };
+		this->SetIcon(icon);
+	}
 	Centre();
 }
 Window::~Window() {

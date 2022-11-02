@@ -5,18 +5,19 @@
 #include "CppUnitTest.h"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace SWEAppTests
+namespace CalculatorTest
 {
 	TEST_CLASS(ButtonFactoryTests)
 	{
 	public:
 		Window* win = nullptr;
-		wxGridSizer* grid = nullptr;
+		wxFlexGridSizer* grid = nullptr;
 		wxString str = "";
 		wxWindowID id = 0;
 		void DoButtonCreation(size_t index) {
-			win = new Window();
-			grid = new wxGridSizer(4, 6, 3, 3);
+
+			win = new Window(false);
+			grid = new wxFlexGridSizer(6, 4, 0, 0);
 			Factory::CreateButtons(grid, win);
 			str = grid->GetItem(index)->GetWindow()->GetLabel();
 			id = grid->GetItem(index)->GetWindow()->GetId();
@@ -24,7 +25,7 @@ namespace SWEAppTests
 		TEST_METHOD(ButtonTestTan) {
 			DoButtonCreation(4);
 			bool valid = false;
-			if (str == "TAN" && id == ids::TAN)
+			if (str == "^" && id == ids::EXPONENT)
 			{
 				valid = true;
 			}
@@ -51,7 +52,7 @@ namespace SWEAppTests
 		TEST_METHOD(ButtonTestMod) {
 			DoButtonCreation(22);
 			bool valid = false;
-			if (str == "MOD" && id == ids::MOD)
+			if (str == "." && id == ids::DECI)
 			{
 				valid = true;
 			}
