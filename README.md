@@ -19,7 +19,7 @@
 - Navigate to C:\wxWidgets\build\msw
 - Open wx_vc17.sln using Visual Studio
 - Set the Solution platform to be x64
-- On the right-hand side, in the solution explorer, left click on the _custom_build project. Next, scroll down to the xrc project, and shift + left-click on it. At this point, everything in the solution explorer, except the solution, should be highlighted. Next, right click any of the highlighted projects, and choose properties.
+- In the solution explorer, left click on the _custom_build project. Next, scroll down to the xrc project, and shift + left-click on it. At this point, everything in the solution explorer, except the solution, should be highlighted. Next, right click any of the highlighted projects, and choose properties.
 - Under Configuration properties, click advanced
 - For the character set property, set it to Not Set, and click ok.
 - In the build menu, click build solution, you may need to do this more than once
