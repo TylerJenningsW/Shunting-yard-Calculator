@@ -25,9 +25,6 @@
 - For the character set property, set it to Not Set, and click ok.
 - In the build menu, click build solution, you may need to do this more than once
 
-## Algorithm Explaination 🎥
-
-
 ## Screenshots/Examples 📷
 
 #### Layout
