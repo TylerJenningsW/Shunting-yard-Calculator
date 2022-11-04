@@ -1,6 +1,6 @@
 # Shunting-yard Calculator
 
-> The Shunting-yard Calculator is written in C++ by [@TylerJenningsW](https://github.com/TylerJenningsW) and [@MichaelLillis](https://github.com/MichaelLillis) using the Shaunting-yard algorithm and [wxWidgets](https://www.wxwidgets.org/) as the primary interface library. 
+> The Shunting-yard Calculator is written in C++ by [@TylerJenningsW](https://github.com/TylerJenningsW) and [@MichaelLillis](https://github.com/MichaelLillis) using the [Shunting-yard algorithm](https://en.wikipedia.org/wiki/Shunting_yard_algorithm) and [wxWidgets](https://www.wxwidgets.org/) as the primary interface library. 
 
 >*NOTE:* This project is meant to be a learning experience, as both authors had limited knowledge of C++ and the wxWidgets library going into the project.
 
@@ -9,7 +9,8 @@
 
 ## General Information ℹ️
 
-- WIP
+- Supports multiplication by asterisk, multiplication by parentheses, division, addition, subtraction, SIN, COS, TAN, and exponents.
+- Set the amount of decimal places to round to using the config.txt
 
 ## Installation 💻
 
@@ -30,14 +31,12 @@
 ## Screenshots/Examples 📷
 
 #### Layout
-<IMAGE>
+![Calculator_layout](https://user-images.githubusercontent.com/95639661/199864717-ee511609-4e51-4fc2-aaec-1663e7c90489.png)
+
 
 #### Results
-<IMAGE>
+![calc](https://user-images.githubusercontent.com/95639661/199865552-5cbfe82c-eeef-4a2d-81f2-4d42a5a83dac.gif)
 
-#### Resizable 
-<IMAGE>
-  
 
 ## Links 🔗
 
