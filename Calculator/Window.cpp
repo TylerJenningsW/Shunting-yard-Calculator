@@ -76,8 +76,11 @@ void Window::OnButtonClick(wxMouseEvent& evt) {
 	if (type == wxEVT_LEFT_DOWN) {
 		IncreaseLight(btn, red, green, blue);
 	}
-	else if (type == wxEVT_LEFT_UP) {
+	else if (type == wxEVT_LEFT_UP && btn->IsMouseInWindow()) {
 		DecreaseLight(btn, red, green, blue);
+	}
+	else if (type == wxEVT_LEFT_UP) {
+		btn->Thaw();
 	}
 	evt.Skip();
 }
@@ -110,8 +113,14 @@ void Window::OnButtonHover(wxMouseEvent& evt) {
 	if (type == wxEVT_ENTER_WINDOW) {
 		IncreaseLight(btn, red, green, blue);
 	}
-	else if (type == wxEVT_LEAVE_WINDOW) {
+	else if (type == wxEVT_LEAVE_WINDOW && !btn->IsMouseInWindow() && !evt.LeftIsDown()) {
 		DecreaseLight(btn, red, green, blue);
+	}
+	else if (type == wxEVT_LEAVE_WINDOW && !btn->IsMouseInWindow() && evt.LeftIsDown()) {
+		DecreaseLight(btn, red, green, blue);
+		DecreaseLight(btn, btn->GetBackgroundColour().GetRed(), btn->GetBackgroundColour().GetGreen(), btn->GetBackgroundColour().GetBlue());
+		Update();
+		btn->Freeze();
 	}
 	evt.Skip();
 }
