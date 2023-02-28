@@ -27,6 +27,13 @@ void Factory::CreateButtons(wxFlexGridSizer* grid, Window* parent)
 		wxButton* btn = new wxButton(parent, (ids)i, _idStrings[j], wxDefaultPosition, wxSize(wxDefaultSize), wxBORDER_NONE);
 		btn->SetFont(wxFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_SEMIBOLD, false));
 		// Set button background color based on text
+		if (i == ids::BACK)
+		{
+			const wchar_t* c = L"\u232B";
+			btn->SetLabel(c);
+			btn->SetFont(wxFont(32, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_SEMIBOLD, false));
+
+		}
 		if (i == (ids::EQUALS)) {
 			btn->SetOwnBackgroundColour(wxColour(19, 66, 110));
 		}
