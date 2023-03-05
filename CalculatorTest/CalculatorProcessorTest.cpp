@@ -66,10 +66,10 @@ namespace CalculatorTest
 		}
 		TEST_METHOD(TokenPrecedenceIsTwo) {
 			CalculatorProcessor* calc = CalculatorProcessor::GetInstance();
-			Token token;
+			Token token;s
 			calc->OperationLowest(token);
 			bool valid = false;
-			if (token._precedence == 2)
+			if (token.GetPrecedence() == 2)
 			{
 				valid = true;
 			}
@@ -80,7 +80,7 @@ namespace CalculatorTest
 			Token token;
 			calc->OperationHigh(token);
 			bool valid = false;
-			if (token._precedence == 3)
+			if (token.GetPrecedence() == 3)
 			{
 				valid = true;
 			}
