@@ -2,7 +2,6 @@
 #include <string>
 class Token
 {
-private:
 
 public:
 	enum TokenType : int {
@@ -13,12 +12,22 @@ public:
 		FUNCTION,
 		NONE,
 	};
-	TokenType _type = NONE;
-	int _precedence = 0;
-	double _value = 0;
-	std::string _symbol = "";
+	Token::TokenType GetTokenType();
+	int GetPrecedence();
+	double GetValue();
+	std::string GetSymbol();
+	void SetTokenType(Token::TokenType type);
+	void SetPrecedence(int precedence);
+	void SetValue(double val);
+	void SetSymbol(std::string symbol);
 	Token();
 	~Token();
 	Token(const Token& other);
 	Token& operator=(const Token& other);
+
+private:
+	TokenType _type = NONE;
+	int _precedence = 0;
+	double _value = 0;
+	std::string _symbol = "";
 };

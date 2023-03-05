@@ -86,49 +86,49 @@ std::string CalculatorProcessor::Calculate() {
 	while (!_tokenQueue.empty()) {
 		_token1 = _tokenQueue.front();
 		_tokenQueue.pop();
-		if (_token1._type == Token::LPEN || _token2._type == Token::RPEN) {
+		if (_token1.GetTokenType() == Token::LPEN || _token2.GetTokenType() == Token::RPEN) {
 			_error = true;
 			break;
 		}
-		else if (_token1._type == Token::NUMBER) {
+		else if (_token1.GetTokenType() == Token::NUMBER) {
 			_tokenStack.push(_token1);
 			continue;
 		}
-		else if (_token1._symbol == '+') {
+		else if (_token1.GetSymbol() == '+') {
 			_error = BinaryFunction();
-			_results._value = Add(_token3._value, _token2._value);
+			_results.SetValue(Add(_token3.GetValue(), _token2.GetValue()));
 		}
-		else if (_token1._symbol == '-') {
+		else if (_token1.GetSymbol() == '-') {
 			_error = BinaryFunction();
-			_results._value = Subtract(_token3._value, _token2._value);
+			_results.SetValue(Subtract(_token3.GetValue(), _token2.GetValue()));
 		}
-		else if (_token1._symbol == '/') {
+		else if (_token1.GetSymbol() == '/') {
 			_error = BinaryFunction();
-			_results._value = Divide(_token3._value, _token2._value);
+			_results.SetValue(Divide(_token3.GetValue(), _token2.GetValue()));
 		}
-		else if (_token1._symbol == '*') {
+		else if (_token1.GetSymbol() == '*') {
 			_error = BinaryFunction();
-			_results._value = Multiply(_token3._value, _token2._value);
+			_results.SetValue(Multiply(_token3.GetValue(), _token2.GetValue()));
 		}
-		else if (_token1._symbol == '%') {
+		else if (_token1.GetSymbol() == '%') {
 			_error = BinaryFunction();
-			_results._value = MOD(_token3._value, _token2._value);
+			_results.SetValue(MOD(_token3.GetValue(), _token2.GetValue()));
 		}
-		else if (_token1._symbol == '^') {
+		else if (_token1.GetSymbol() == '^') {
 			_error = BinaryFunction();
-			_results._value = EXPONENT(_token3._value, _token2._value);
+			_results.SetValue(EXPONENT(_token3.GetValue(), _token2.GetValue()));
 		}
-		else if (_token1._symbol == "S") {
+		else if (_token1.GetSymbol() == "S") {
 			_error = UnaryFunction();
-			_results._value = SIN(_token2._value);
+			_results.SetValue(SIN(_token2.GetValue()));
 		}
-		else if (_token1._symbol == "C") {
+		else if (_token1.GetSymbol() == "C") {
 			_error = UnaryFunction();
-			_results._value = COS(_token2._value);
+			_results.SetValue(COS(_token2.GetValue()));
 		}
-		else if (_token1._symbol == "T") {
+		else if (_token1.GetSymbol() == "T") {
 			_error = UnaryFunction();
-			_results._value = TAN(_token2._value);
+			_results.SetValue(TAN(_token2.GetValue()));
 		}
 		if (_error == true && _tokenStack.size() == 1) {
 			_error = false;
@@ -141,7 +141,7 @@ std::string CalculatorProcessor::Calculate() {
 			return "";
 		}
 	}
-	std::string str = std::to_string(_tokenStack.top()._value);
+	std::string str = std::to_string(_tokenStack.top().GetValue());
 	_tokenStack.pop();
 	return str;
 }
@@ -169,6 +169,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 	int decimalCount = 0;
 	int negativeCount = 0;
 	for (i; i < strToEval.length(); ++i) {
+		std::string symbol = "";
 		char c = strToEval[i];
 		isOperator = false;
 		// determine if char is op or negative
@@ -221,58 +222,58 @@ bool CalculatorProcessor::EvaluateExpression() {
 		}
 		// tokenize operators
 		if (strToEval[i] == '-' && isOperator == true) {
-			_token1._symbol = strToEval[i];
+			_token1.SetSymbol(std::string(1, strToEval[i]));
 			OperationLowest(_token1);
 		}
 		else if (strToEval[i] == '+') {
-			_token1._symbol = strToEval[i];
+			_token1.SetSymbol(std::string(1, strToEval[i]));
 			OperationLowest(_token1);
 		}
 		else if (strToEval[i] == '*' || strToEval[i] == '/' || strToEval[i] == '%') {
-			_token1._symbol = strToEval[i];
+			_token1.SetSymbol(std::string(1, strToEval[i]));
 			OperationHigh(_token1);
 		}
 		else if (strToEval[i] == '^') {
-			_token1._symbol = strToEval[i];
+			_token1.SetSymbol(std::string(1, strToEval[i]));
 			OperationExponent(_token1);
 		}
 		// tokenize parentheses
 		else if (strToEval[i] == '(') {
-			_token1._symbol = strToEval[i];
+			_token1.SetSymbol(std::string(1, strToEval[i]));
 			LeftParenthesis(_token1);
 			_tokenStack.push(_token1);
 		}
 		else if (strToEval[i] == ')') {
-			_token1._symbol = strToEval[i];
+			_token1.SetSymbol(std::string(1, strToEval[i]));
 			RightParenthesis(_token1);
 		}
 		// tokenize functions
 		else if (strToEval[i] == 'S' || strToEval[i] == 'C' || strToEval[i] == 'T') {
-			_token1._symbol = strToEval[i];
+			_token1.SetSymbol(std::string(1, strToEval[i]));
 			Function(_token1);
 			_tokenStack.push(_token1);
 			i += 2;
 		}
 		// parenthesis mismatch case
-		if ((_tokenStack.empty() && _token1._type == Token::RPEN)) {
+		if ((_tokenStack.empty() && _token1.GetTokenType() == Token::RPEN)) {
 			_error = true;
 			break;
 		}
 		// no need for comparison if the stack is empty
-		else if (_tokenStack.empty() && _token1._type != Token::NUMBER && _token1._type != Token::NONE) {
+		else if (_tokenStack.empty() && _token1.GetTokenType() != Token::NUMBER && _token1.GetTokenType() != Token::NONE) {
 			_tokenStack.push(_token1);
 			++opCount;
 			continue;
 		}
-		if (_token1._type == Token::OPERATION
-			&& _token1._precedence >= _tokenStack.top()._precedence) {
+		if (_token1.GetTokenType() == Token::OPERATION
+			&& _token1.GetPrecedence() >= _tokenStack.top().GetPrecedence()) {
 			_tokenStack.push(_token1);
 			++opCount;
 		}
 		// swap high precedence operator onto the queue
-		else if (_token1._type == Token::OPERATION &&
-			_token1._precedence < _tokenStack.top()._precedence
-			&& _tokenStack.top()._type == Token::OPERATION) {
+		else if (_token1.GetTokenType() == Token::OPERATION &&
+			_token1.GetPrecedence() < _tokenStack.top().GetPrecedence()
+			&& _tokenStack.top().GetTokenType() == Token::OPERATION) {
 			Token token = _tokenStack.top();
 			_tokenStack.pop();
 			_tokenStack.push(_token1);
@@ -280,8 +281,8 @@ bool CalculatorProcessor::EvaluateExpression() {
 			++opCount;
 		}
 		// pop everything within the parentheses into the queue
-		else if (_token1._type == Token::RPEN) {
-			while (_tokenStack.top()._type != Token::LPEN && !_tokenStack.empty()) {
+		else if (_token1.GetTokenType() == Token::RPEN) {
+			while (_tokenStack.top().GetTokenType() != Token::LPEN && !_tokenStack.empty()) {
 				Token token = _tokenStack.top();
 				_tokenStack.pop();
 				_tokenQueue.push(token);
@@ -291,7 +292,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 				_error = true;
 				break;
 			}
-			else if (_tokenStack.top()._type == Token::LPEN) {
+			else if (_tokenStack.top().GetTokenType() == Token::LPEN) {
 				_tokenStack.pop();
 			}
 		}
@@ -364,47 +365,47 @@ double CalculatorProcessor::TAN(double x) {
 }
 bool CalculatorProcessor::Number(Token& token, std::string str) {
 	if (str != '.' && str != '-') {
-		token._symbol = str;
-		token._value = std::stod(str);
-		token._type = Token::NUMBER;
-		token._precedence = 0;
+		token.SetSymbol(str);
+		token.SetValue(std::stod(str));
+		token.SetTokenType(Token::NUMBER);
+		token.SetPrecedence(0);
 		return false;
 	}
 	return true;
 }
 
 void CalculatorProcessor::OperationLowest(Token& token) {
-	token._value = 0;
-	token._type = Token::OPERATION;
-	token._precedence = 2;
+	token.SetValue(0);
+	token.SetTokenType(Token::OPERATION);
+	token.SetPrecedence(2);
 }
 
 void CalculatorProcessor::OperationHigh(Token& token) {
-	token._value = 0;
-	token._type = Token::OPERATION;
-	token._precedence = 3;
+	token.SetValue(0);
+	token.SetTokenType(Token::OPERATION);
+	token.SetPrecedence(3);
 }
 
 void CalculatorProcessor::OperationExponent(Token& token) {
-	token._value = 0;
-	token._type = Token::OPERATION;
-	token._precedence = 4;
+	token.SetValue(0);
+	token.SetTokenType(Token::OPERATION);
+	token.SetPrecedence(4);
 }
 
 void CalculatorProcessor::LeftParenthesis(Token& token) {
-	token._value = 0;
-	token._type = Token::LPEN;
-	token._precedence = -1;
+	token.SetValue(0);
+	token.SetTokenType(Token::LPEN);
+	token.SetPrecedence(-1);
 }
 void CalculatorProcessor::RightParenthesis(Token& token) {
-	token._value = 0;
-	token._type = Token::RPEN;
-	token._precedence = -1;
+	token.SetValue(0);
+	token.SetTokenType(Token::RPEN);
+	token.SetPrecedence(-1);
 }
 void CalculatorProcessor::Function(Token& token) {
-	token._value = 0;
-	token._type = Token::FUNCTION;
-	token._precedence = 4;
+	token.SetValue(0);
+	token.SetTokenType(Token::FUNCTION);
+	token.SetPrecedence(4);
 }
 bool CalculatorProcessor::BinaryFunction() {
 	if (_tokenStack.size() >= 2) {

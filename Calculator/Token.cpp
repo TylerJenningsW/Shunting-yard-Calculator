@@ -2,6 +2,46 @@
 #include "idList.h"
 #include <string>
 
+Token::TokenType Token::GetTokenType()
+{
+	return _type;
+}
+
+int Token::GetPrecedence()
+{
+	return _precedence;
+}
+
+double Token::GetValue()
+{
+	return _value;
+}
+
+std::string Token::GetSymbol()
+{
+	return _symbol;
+}
+
+void Token::SetTokenType(Token::TokenType type)
+{
+	_type = type;
+}
+
+void Token::SetPrecedence(int precedence)
+{
+	_precedence = precedence;
+}
+
+void Token::SetValue(double val)
+{
+	_value = val;
+}
+
+void Token::SetSymbol(std::string symbol)
+{
+	_symbol = symbol;
+}
+
 Token::Token() {
 
 }
