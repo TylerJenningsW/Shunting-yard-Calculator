@@ -67,6 +67,8 @@ void Window::OnButton(wxCommandEvent& evt) {
 }
 
 void Window::OnButtonClick(wxMouseEvent& evt) {
+	// In the event of a button click, the user will know they've clicked
+	// through the color changes of thee buttons
 	wxEventType type = evt.GetEventType();
 	wxButton* btn = (wxButton*)evt.GetEventObject();
 	wxColour color = btn->GetBackgroundColour();
@@ -88,7 +90,9 @@ void Window::OnButtonClick(wxMouseEvent& evt) {
 void Window::OnChar(wxKeyEvent& evt) {
 	// Evaluate expression if enter key is pressed
 	if (evt.GetKeyCode() == WXK_RETURN) {
+		// call the singleton
 		CalculatorProcessor* _processor = CalculatorProcessor::GetInstance();
+		// evaluate the event id
 		_processor->ParseId(this, (ids)evt.GetId());
 		return;
 	}
@@ -104,6 +108,8 @@ void Window::SetFont(int fontsize) {
 }
 
 void Window::OnButtonHover(wxMouseEvent& evt) {
+	// The user will know they've hovered
+	// over a button through the color changes of thee buttons
 	wxEventType type = evt.GetEventType();
 	wxButton* btn = (wxButton*)evt.GetEventObject();
 	wxColour color = btn->GetBackgroundColour();
@@ -125,7 +131,9 @@ void Window::OnButtonHover(wxMouseEvent& evt) {
 	evt.Skip();
 }
 
+// OnSize is an event handler for resizing the window
 void Window::OnSize(wxSizeEvent& evt) {
+	// We get the current size of the text box, then scale accordingly
 	wxTextCtrl* txt = (wxTextCtrl*)evt.GetEventObject();
 	wxSize size = txt->GetSize();
 	int y = size.GetHeight();
@@ -137,9 +145,12 @@ void Window::OnSize(wxSizeEvent& evt) {
 }
 
 void Window::AddToSizer() {
+	// our text box
 	_sizer->Add(_output, 1, wxEXPAND | wxTOP | wxBOTTOM | wxLEFT | wxRIGHT);
+	// our grid containing the buttons
 	_sizer->Add(_gridSizer, 10, wxEXPAND);
 }
+// The includes list is used deny typing non-mathematical characters
 void Window::AddToIncludes() {
 	_includeList.Add("\n");
 	_includeList.Add("^");
@@ -160,6 +171,8 @@ void Window::AddToIncludes() {
 	_validator->SetIncludes(_includeList);
 }
 
+// These two functions handle the rgb values
+// of our buttons to then increment oor decrement for user feedback
 void Window::IncreaseLight(wxButton* button, size_t red, size_t green, size_t blue) {
 	red = truncate(red + 15);
 	green = truncate(green + 15);
