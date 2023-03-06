@@ -86,7 +86,7 @@ std::string CalculatorProcessor::Calculate() {
 			_token(1-3): Used to pass to the shunting yard algorithm
 			_tokenStack: Used to temporarily hold an infix notation's tokens
 			_tokenQueue: The postfix notation equation's tokens
-			_results: The end output of the given equation
+			_results: The end output token of the given equation
 
 	*/
 	if (_error == true) {
@@ -171,7 +171,7 @@ bool CalculatorProcessor::EvaluateExpression() {
 			_token(1-3): Used to pass to the shunting yard algorithm
 			_tokenStack: Used to temporarily hold an infix notation's tokens
 			_tokenQueue: The postfix notation equation's tokens
-			_results: The end output of the given equation
+			_results: The end output token of the given equation
 	*/
 	if (strToEval.length() > 256) {
 		_error = true;
