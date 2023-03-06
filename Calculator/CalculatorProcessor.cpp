@@ -80,6 +80,15 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 }
 
 std::string CalculatorProcessor::Calculate() {
+	/*
+
+	Key:	_error: Checking for equation issues ranging from illegal chars to impossible equations
+			_token(1-3): Used to pass to the shunting yard algorithm
+			_tokenStack: Used to temporarily hold an infix notation's tokens
+			_tokenQueue: The postfix notation equation's tokens
+			_results: The end output of the given equation
+
+	*/
 	if (_error == true) {
 		return "";
 	}
@@ -156,6 +165,14 @@ void CalculatorProcessor::CleanUp() {
 }
 
 bool CalculatorProcessor::EvaluateExpression() {
+	/*
+
+	Key:	_error: Checking for equation issues ranging from illegal chars to impossible equations
+			_token(1-3): Used to pass to the shunting yard algorithm
+			_tokenStack: Used to temporarily hold an infix notation's tokens
+			_tokenQueue: The postfix notation equation's tokens
+			_results: The end output of the given equation
+	*/
 	if (strToEval.length() > 256) {
 		_error = true;
 		return _error;
@@ -429,10 +446,10 @@ void CalculatorProcessor::Truncate() {
 	if (_error == true) {
 		return;
 	}
+
 	std::stringstream ss; //for parsing int
 	std::string decimalPlacesStr = "";
 	std::fstream config;
-	int count = 0;
 	int decimalPlaces = 0;
 	config.open("config.txt", std::ios::in);
 	if (config.is_open()) {
@@ -441,13 +458,11 @@ void CalculatorProcessor::Truncate() {
 	}
 	ss << decimalPlacesStr;
 	ss >> decimalPlaces;
-	for (unsigned int i = _result.length() - 1; i > 0; --i) {
-		if (_result[i] != '.') {
-			++count;
-			continue;
-		}
-		_result.erase(i + decimalPlaces + 1, count - decimalPlaces);
-	}
+	int countPlaces = std::stoi(_result);
+	std::string toBeCounted = std::to_string(countPlaces);
+	int lengthBeforeDecimal = toBeCounted.length();
+	if (decimalPlaces > _result.length()) { decimalPlaces = 3; }
+	_result.erase(lengthBeforeDecimal+1, decimalPlaces);
 }
 CalculatorProcessor* CalculatorProcessor::GetInstance() {
 	if (_processor == nullptr) {
