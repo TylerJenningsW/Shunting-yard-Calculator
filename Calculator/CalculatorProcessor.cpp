@@ -38,7 +38,7 @@ void CalculatorProcessor::ParseId(Window* parent, ids id) {
 		if (strToEval == "") {
 			return;
 		}
-		unsigned int n = (strToEval.length() - 2);
+		unsigned int n = (strToEval.length() - 1);
 		for (unsigned int i = n; i >= 0; --i) {
 			char c = strToEval[i];
 			if ((std::isdigit(c) || c == ')' || c == '.') && i != 0) {
